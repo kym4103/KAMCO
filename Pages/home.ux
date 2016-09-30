@@ -1,0 +1,23 @@
+<Page ux:Class="home">
+	<Router ux:Dependency="router" />
+
+	<JavaScript>
+		module.exports = {
+			goSearchData: function() {
+				router.push("searchData");
+			},
+			goSavedPage: function() {
+				router.push("savedPage");
+			},
+			goMakingPage: function() {
+				router.push("makingPage");
+			}
+		}
+	</JavaScript>
+
+	<StackPanel>
+		<Button Text="데이터 검색" Clicked="{goSearchData}" />
+		<Button Text="저장된 페이지" Clicked="{goSavedPage}" />
+		<Button Text="makingPage" Clicked="{goMakingPage}" />
+	</StackPanel>
+</Page>

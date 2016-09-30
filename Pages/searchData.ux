@@ -1,0 +1,106 @@
+<Page ux:Class="searchData">
+	<Router ux:Dependency="router" />
+
+	<JavaScript File="searchData.js" />
+<!-- 데이터 선택시 보여지는 패널 -->
+	<Rectangle ux:Name="selectPanel" Width="80%" Height="10" Color="#fff" CornerRadius="4" ZOffset="-1" Opacity="0" HitTestMode="None">
+		<Stroke Width="1" Color="Black" />
+
+		<Panel Alignment="TopRight" ZOffset="1" Margin="5" Width="20" Height="20" Background="#ddd">
+			<Rectangle Width="20" Height="2" CornerRadius="1" Color="Black" >
+				<Rotation Degrees="45" />
+			</Rectangle>
+			<Rectangle Width="20" Height="2" CornerRadius="1" Color="Black" >
+				<Rotation Degrees="-45" />
+			</Rectangle>
+
+			<Clicked><Callback Handler="{closePanel}" /></Clicked>
+		</Panel>
+
+		<ScrollView ZOffset="{showPanel.data1}">
+			<StackPanel>
+				<Each Items="{address.data1}">
+					<selectText Value="{}" Clicked="{selectSido}" Alignment="Center" />
+				</Each>
+			</StackPanel>
+		</ScrollView>
+
+		<ScrollView ZOffset="{showPanel.data2}">
+			<StackPanel>
+				<Each Items="{address.data2}">
+					<selectText Value="{}" Clicked="{selectSgk}" Alignment="Center" />
+				</Each>
+			</StackPanel>
+		</ScrollView>
+
+		<ScrollView ZOffset="{showPanel.data3}">
+			<StackPanel>
+				<Each Items="{address.data3}">
+					<selectText Value="{}" Clicked="{selectEmd}" Alignment="Center" />
+				</Each>
+			</StackPanel>
+		</ScrollView>
+
+		<WhileTrue Value="{showPanel.base}">
+			<Change selectPanel.Height="400" Duration="0.05" DurationBack="0" />
+			<Change selectPanel.ZOffset="2" />
+			<Change selectPanel.Opacity="1" />
+			<Change selectPanel.HitTestMode="LocalBoundsAndChildren" />
+			<Change blur.ZOffset="1" />
+			<Change blur.Opacity="1" />
+		</WhileTrue>
+	</Rectangle>
+<!-- 데이터 선택시 화면을 가리기 위한 패널 -->
+	<Rectangle ux:Name="blur" Width="100%" Color="#fff7" ZOffset="-1" Opacity="0"/>
+
+	<StackPanel ux:Name="contents" Margin="3" ItemSpacing="3">
+		<WrapPanel>
+			<Text Font="han" Value="매각 방식 : " Alignment="Center" />
+			<selectBar Options="{options.type}" Selected="{selected.type}" />
+		</WrapPanel>
+
+		<WrapPanel>
+			<Text Font="han" Value="입찰 기간 : " Alignment="Center" />
+			<selectBar Options="{options.date}" Selected="{selected.date}" />
+		</WrapPanel>
+
+		<WrapPanel>
+			<Text Font="han" Value="소재지 : " Alignment="Center" />
+			<selectBox>
+				<selectText Value="{address.sido}" Clicked="{getSido}" TextWrapping="Wrap" />
+			</selectBox>
+
+			<selectBox>
+				<selectText Value="{address.sgk}" Clicked="{getSgk}" TextWrapping="Wrap" />
+			</selectBox>
+
+			<selectBox>
+				<selectText Value="{address.emd}" Clicked="{getEmd}" TextWrapping="Wrap" />
+			</selectBox>
+		</WrapPanel>
+		
+		<Button Text="Search" Clicked="{getData}" />
+		<Rectangle Width="100%" Height="1" Color="Black" />
+		<Rectangle Width="100%" Color="#eee" Margin="2">
+			<Grid ColumnCount="3">
+				<Text Font="han" Value="Number" Alignment="Center" />
+				<Text Font="han" Value="Name" Alignment="Center" />
+				<Text Font="han" Value="Type" Alignment="Center" />
+				<Each Items="{items.items}">
+					<Text Font="han" Value="{item.CLTR_NO}" Alignment="Center" Clicked="{showData}" />
+					<Text Font="han" Value="{item.CLTR_NM}" Alignment="Center" Clicked="{showData}" />
+					<Text Font="han" Value="{item.DPSL_MTD_NM}" Alignment="Center" Clicked="{showData}" />
+				</Each>
+			</Grid>
+		</Rectangle>
+
+	<ScrollView>
+		<StackPanel>
+			<Text Font="han" Value="{resultText}" TextWrapping="Wrap" Background="#ddd" />
+			<Button Text="Go detail" Clicked="{goDetail}" />
+			<Button Text="Back" Clicked="{goBack}" />
+		</StackPanel>
+	</ScrollView>
+			
+	</StackPanel>
+</Page>

@@ -1,0 +1,200 @@
+<Page ux:Class="detailData">
+	<Router ux:Dependency="router" />
+
+	<JavaScript File="detailData.js" />
+
+	<ScrollView>
+		<StackPanel>
+			<Each Items="{item}">
+				<Text Font="han" Value="공고명 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="담당부점 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="담당자명 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="담당전화번호 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="담당자이메일주소 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="공고종류 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="공고일자 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="공고년도 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="공고회차 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="재산종류 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="공고대상자산 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="공고관리번호 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="기관공고번호 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="관련공고번호 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="관련공고명 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="입찰방식 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="처분방식 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="경쟁방식 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="총액단가구분 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="참가자격 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="재입찰여부 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="공동입찰허용여부 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="대리입찰허용여부 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="공고문 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="공매번호 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="공매회차 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="공매차수 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="입찰구분 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="2인미만 유찰여부 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="2회이상 입찰가능 여부 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="전자보증서 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="참가수수료 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="입찰보증금률 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="입찰시작일시 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="입찰마감일시 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="개찰일시 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+				<Text Font="han" Value="개찰장소내용 :" />
+				<selectBox>
+					<Text Font="han" Value="{}" TextWrapping="Wrap" />
+				</selectBox>
+
+			</Each>
+			<Text Value="{detailText}" TextWrapping="Wrap" />
+			<Button Text="Save" Clicked="{save}" />
+			<Button Text="Back" Clicked="{goBack}" />
+		</StackPanel>
+	</ScrollView>
+</Page>

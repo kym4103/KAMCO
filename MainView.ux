@@ -1,0 +1,29 @@
+<App>
+	<Router ux:Name="router" />
+
+	<Rectangle ux:Class="selectBox" Margin="5" CornerRadius="2">
+		<Stroke Width="1" Color="#444" />
+	</Rectangle>
+
+	<Rectangle ux:Class="selectButton" Height="20" Color="#7dd" Margin="2" CornerRadius="3">
+<!--		<Clicked><Toggle Target="clicked" /></Clicked>
+		<WhileTrue ux:Name="clicked">
+			<Change this.Color="#599" />
+		</WhileTrue>
+	-->
+	</Rectangle>
+
+	<Font File="Assets/NanumGothic.ttc" ux:Global="han" />
+
+	<Text ux:Class="selectText" Color="Black" Margin="3" Font="han" />
+
+	<ClientPanel>
+		<Navigator DefaultTemplate="home">
+			<home ux:Template="home" router="router" />
+			<searchData ux:Template="searchData" router="router" />
+			<detailData ux:Template="detailData" router="router" />
+			<savedPage ux:Template="savedPage" router="router" />
+			<makingPage ux:Template="makingPage" router="router" />
+		</Navigator>
+	</ClientPanel>
+</App>
