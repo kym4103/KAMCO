@@ -3,36 +3,30 @@
 
 	<JavaScript>
 		var Observable = require('FuseJS/Observable');
+		var Storage = require('FuseJS/Storage');
+		var Backend = require("Backend.js");
 
+		var item = Observable();
+
+		Storage.read("book.xml")
+			.then(function(contents) {
+				console.log("start");
+				item.value = Backend.parsingXMLData(contents);
+			}, function(error) {
+				console.log(error);
+			})
+		
 		function date() {
-			var date = new Date();
-			date.setDate(date.getDate()+7);
-			var year = date.getFullYear();
-			var month = date.getMonth();
-			var day = date.getDate();
-
-			var dt = "" + date.getFullYear() + date.getMonth() + date.getDate();
-			console.log(callDate(date.getFullYear(), date.getMonth(), date.getDate()));
-		}
-
-		function callDate(year, month, date) {
-			if (month < 10) {
-				month = "0" + month;
-			}
-			if (date < 10) {
-				date = "0" + date;
-			}
-
-			return year+month+date;
+			// body...
 		}
 
 		module.exports = {
-			date
+			date, item
 		};
 	</JavaScript>
 
 	<StackPanel Background="Black">
-		<Button Text="date" Clicked="{date}" />
-
+		<Text Value="{item.response.body.pageNo}" />
+		
 	</StackPanel>
 </Page>

@@ -1,4 +1,5 @@
 <Panel ux:Class="selectBar" Alignment="VerticalCenter">
+	<int ux:Property="ColumnCount" />
 	<string ux:Property="Selected" />
 	<object ux:Property="Options" />
 
@@ -11,24 +12,27 @@
 				option: option
 			}
 		})
-		var optionCount = options.count();
+//		var optionCount = options.count();
 
-		module.exports = { options, optionCount };
+		module.exports = {
+			options,
+//			optionCount
+		};
 	</JavaScript>
 
-	<Rectangle ux:Class="segmentButton">
+	<Rectangle ux:Class="segmentButton" CornerRadius="3" Margin="1">
 		<string ux:Property="Label" />
 		<Selectable Value="{Property Label}" />
-		<Text ux:Name="text" Alignment="Center" Font="han" Color="#18f" Value="{Property Label}" Margin="5, 0" />
+		<Text ux:Name="text" Alignment="Center" Font="han" Color="#18f" Value="{Property Label}" Margin="2" />
 		<Stroke Color="#18f" />
-
+<!--
 		<WhileTrue Value="{isFirst}">
 			<Change this.CornerRadius="3,0,0,3" />
 		</WhileTrue>
 		<WhileTrue Value="{isLast}">
 			<Change this.CornerRadius="0,3,3,0" />
 		</WhileTrue>
-
+-->
 		<WhileSelected>
 			<Change text.Color="White" Duration="0.1" />
 			<Change this.Color="#18f" Duration="0.1" />
@@ -38,7 +42,7 @@
 		</Tapped>
 	</Rectangle>
 
-	<Grid ColumnCount="{optionCount}" Height="20">
+	<Grid ColumnCount="{Property ColumnCount}">
 		<Selection Value="{Property Selected}" MaxCount="1" MinCount="1" />
 		<Each Items="{options}">
 			<segmentButton Label="{option}" />

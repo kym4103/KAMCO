@@ -3,203 +3,230 @@
 
 	<JavaScript File="savedPage.js" />
 
-	<ScrollView>
-		<StackPanel>
+	<DockPanel Background="#eee">
+		<StackPanel Dock="Top">
 			<Each Items="{items.items}">
-				<Text Font="han" Value="공고명 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.PLNM_NM}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="공고기관 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.organInfo.ORG_NM}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="담당부점 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.organInfo.RSBY_DEPT}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="담당자명 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.organInfo.PSCG_NM}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="담당전화번호 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.organInfo.PSCG_TPNO}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="담당자이메일주소 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.organInfo.PSCG_EMAL_ADRS}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="공고종류 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.saleInfo.PLNM_KIND_NM}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="공고일자 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.saleInfo.PLNM_DT}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="공고년도 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.saleInfo.PLNM_YR}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="공고회차 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.saleInfo.PLNM_SEQ}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="재산종류 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.saleInfo.PLNM_DVSN_NM}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="공고대상자산 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.saleInfo.AST_DVSN_CD}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="공고관리번호 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.saleInfo.PLNM_MNMT_NO}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="기관공고번호 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.saleInfo.ORG_PLNM_NO}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="관련공고번호 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.bidInfo.RLTN_PLNM_NO}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="관련공고명 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.bidInfo.PLRN_PLNM_TITL}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="입찰방식 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.bidInfo.BID_MTD_NM}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="처분방식 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.bidInfo.DPSL_MTD_NM}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="경쟁방식 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.bidInfo.CPTN_MTD_NM}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="총액단가구분 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.bidInfo.TOT_AMP_UNPC_DVS}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="참가자격 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.bidInfo.PTCT_QLFC}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="재입찰여부 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.bidInfo.RBD_YN}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="공동입찰허용여부 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.bidInfo.COMN_BID_PMSN_YN}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="대리입찰허용여부 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.bidInfo.SUBT_BID_PMSN_YN}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="공고문 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDetailInfo.PLNM_DOC}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="공매번호 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.bidDateInfos.PBCT_NO}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="공매회차 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.PBCT_SEQ}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="공매차수 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.PBCT_DGR}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="입찰구분 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.BID_DVSN_NM}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="2인미만 유찰여부 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.TWPS_LSTH_USBD_YN}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="2회이상 입찰가능 여부 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.TWTM_GTHR_BID_PSBL_YN}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="전자보증서 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.ELTR_GRT_DOC_USE_YN}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="참가수수료 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.PTCT_CMSN}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="입찰보증금률 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.TDPS_RT}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="입찰시작일시 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.PBCT_BEGN_DTM}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="입찰마감일시 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.PBCT_CLS_DTM}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="개찰일시 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.PBCT_EXCT_DTM}" TextWrapping="Wrap" />
-				</selectBox>
-
-				<Text Font="han" Value="개찰장소내용 :" />
-				<selectBox>
-					<Text Font="han" Value="{item.OPBD_PLC_CNTN}" TextWrapping="Wrap" />
-				</selectBox>
-
+				<Text Font="han" Value="{item.bidDetailInfo.PLNM_NM}" TextWrapping="Wrap" />
 			</Each>
-			
-			<Text Value="{contentsText}" TextWrapping="Wrap" />
-			<Button Text="Back" Clicked="{goBack}" />
+			<Grid ColumnCount="3" Width="95%">
+				<Rectangle>
+					<Text Value="기본정보" />
+				</Rectangle>
+
+				<Rectangle>
+					<Text Value="기관정보" />
+				</Rectangle>
+
+				<Rectangle>
+					<Text Value="공고정보" />
+				</Rectangle>
+
+				<Rectangle>
+					<Text Value="경매정보" />
+				</Rectangle>
+
+				<Rectangle>
+					<Text Value="공고문" />
+				</Rectangle>
+
+				<Rectangle>
+					<Text Value="입찰일시 및 장소" />
+				</Rectangle>
+			</Grid>
 		</StackPanel>
-	</ScrollView>
+		<ScrollView>
+			<StackPanel>
+				<Each Items="{items.items}">
+					<Text Font="han" Value="공고기관 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.organInfo.ORG_NM}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="담당부점 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.organInfo.RSBY_DEPT}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="담당자명 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.organInfo.PSCG_NM}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="담당전화번호 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.organInfo.PSCG_TPNO}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="담당자이메일주소 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.organInfo.PSCG_EMAL_ADRS}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="공고종류 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.saleInfo.PLNM_KIND_NM}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="공고일자 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.saleInfo.PLNM_DT}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="공고년도 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.saleInfo.PLNM_YR}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="공고회차 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.saleInfo.PLNM_SEQ}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="재산종류 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.saleInfo.PLNM_DVSN_NM}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="공고대상자산 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.saleInfo.AST_DVSN_CD}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="공고관리번호 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.saleInfo.PLNM_MNMT_NO}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="기관공고번호 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.saleInfo.ORG_PLNM_NO}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="관련공고번호 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.bidInfo.RLTN_PLNM_NO}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="관련공고명 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.bidInfo.PLRN_PLNM_TITL}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="입찰방식 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.bidInfo.BID_MTD_NM}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="처분방식 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.bidInfo.DPSL_MTD_NM}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="경쟁방식 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.bidInfo.CPTN_MTD_NM}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="총액단가구분 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.bidInfo.TOT_AMP_UNPC_DVS}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="참가자격 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.bidInfo.PTCT_QLFC}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="재입찰여부 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.bidInfo.RBD_YN}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="공동입찰허용여부 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.bidInfo.COMN_BID_PMSN_YN}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="대리입찰허용여부 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.bidInfo.SUBT_BID_PMSN_YN}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="공고문 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDetailInfo.PLNM_DOC}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="공매번호 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.bidDateInfos.PBCT_NO}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="공매회차 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.PBCT_SEQ}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="공매차수 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.PBCT_DGR}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="입찰구분 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.BID_DVSN_NM}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="2인미만 유찰여부 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.TWPS_LSTH_USBD_YN}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="2회이상 입찰가능 여부 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.TWTM_GTHR_BID_PSBL_YN}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="전자보증서 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.ELTR_GRT_DOC_USE_YN}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="참가수수료 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.PTCT_CMSN}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="입찰보증금률 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.TDPS_RT}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="입찰시작일시 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.PBCT_BEGN_DTM}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="입찰마감일시 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.PBCT_CLS_DTM}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="개찰일시 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.PBCT_EXCT_DTM}" TextWrapping="Wrap" />
+					</selectBox>
+
+					<Text Font="han" Value="개찰장소내용 :" />
+					<selectBox>
+						<Text Font="han" Value="{item.OPBD_PLC_CNTN}" TextWrapping="Wrap" />
+					</selectBox>
+
+				</Each>
+				
+				<Text Value="{contentsText}" TextWrapping="Wrap" />
+				<Button Text="Back" Clicked="{goBack}" />
+			</StackPanel>
+		</ScrollView>
+	</DockPanel>
 </Page>

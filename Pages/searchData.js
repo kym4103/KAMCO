@@ -5,6 +5,7 @@ var Backend = require("Backend.js");
 //LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D
 
 var items = Observable();
+var showItems = Observable();
 
 var options = {type:["전체", "매각", "임대"], date: ["7일 이내", "30일 이내"]};
 var selected = {type: Observable("전체") , date: Observable("7일 이내")};
@@ -18,14 +19,23 @@ var address = {
 	};
 var showPanel = {base: Observable(false), data1: Observable("0"), data2: Observable("0"), data3: Observable("0")};
 
-var PLNM_NO, PBCT_NO;
+var data;
 
 var resultText = Observable("This place show you data.");
 
 Storage.read("search.xml")
 	.then(function(contents) {
 		items.value = Backend.parsingXMLData(contents);
-		console.log("reading is ok");
+		console.log("Reading is OK");
+		for (var i = 0 ; i < items.value.response.body.items.length-1 ; i++) {
+			if (items.value.response.body.items[i].item.PLNM_NO != items.value.response.body.items[i+1].item.PLNM_NO) {
+				showItems.add(items.value.response.body.items[i].item);
+			}
+			if (i == items.value.response.body.items.length-2) {
+				showItems.add(items.value.response.body.items[i+1]);
+			}
+		}
+		//console.log(JSON.stringify(showItems.value));
 	}, function(error) {
 		console.log(error);
 	});
@@ -84,6 +94,20 @@ function getData() {
 		method: 'POST'
 	}).then(function(response) {
 		items.value = Backend.parsingXMLData(response._bodyInit);
+
+//		items.value.items.forEach(function(item) {
+//			console.log(item.item.PLNM_NO + "/" + item.item.PBCT_NO);
+//		})
+
+		for (var i = 0 ; i < items.value.response.body.items.length-1 ; i++) {
+			if (items.value.response.body.items[i].item.PLNM_NO != items.value.response.body.items[i+1].item.PLNM_NO) {
+				showItems.add(items.value.response.body.items[i].item);
+			}
+			if (i == items.value.response.body.items.length-2) {
+				showItems.add(items.value.response.body.items[i+1]);
+			}
+		}
+
 		resultText.value = response.statusText+". We got the data.";
 		if (items.value.totalCount != 0) {
 			Storage.write("search.xml", response._bodyInit)
@@ -134,17 +158,17 @@ function getSido() {
 			method: 'POST'
 		}).then(function(response) {
 			code.value = Backend.parsingXMLData(response._bodyInit);
-			code.value.items.forEach(function(item) {
+			code.value.response.body.items.forEach(function(item) {
 				address.data1.add(item.item.ADDR1);
 			})
-			if (code.value.totalCount > 10) {
+			if (code.value.response.body.totalCount > 10) {
 				url = url + '&pageNo=';
-				for (var i = 2 ; (i-1)*10 <= code.value.totalCount ; i++) {
+				for (var i = 2 ; (i-1)*10 <= code.value.response.body.totalCount ; i++) {
 					fetch(url+i, {
 						method: 'POST'
 					}).then(function(response) {
 						code.value = Backend.parsingXMLData(response._bodyInit);
-						code.value.items.forEach(function(item) {
+						code.value.response.body.items.forEach(function(item) {
 							address.data1.add(item.item.ADDR1);
 						})
 					});
@@ -180,17 +204,17 @@ function getSgk() {
 				method: 'POST'
 			}).then(function(response) {
 				code.value = Backend.parsingXMLData(response._bodyInit);
-				code.value.items.forEach(function(item) {
+				code.value.response.body.items.forEach(function(item) {
 					address.data2.add(item.item.ADDR2);
 				})
-				if (code.value.totalCount > 10) {
+				if (code.value.response.body.totalCount > 10) {
 					url = url + '&pageNo=';
-					for (var i = 2 ; (i-1)*10 <= code.value.totalCount ; i++) {
+					for (var i = 2 ; (i-1)*10 <= code.value.response.body.totalCount ; i++) {
 						fetch(url+i, {
 							method: 'POST'
 						}).then(function(response) {
 							code.value = Backend.parsingXMLData(response._bodyInit);
-							code.value.items.forEach(function(item) {
+							code.value.response.body.items.forEach(function(item) {
 								address.data2.add(item.item.ADDR2);
 							})
 						});
@@ -222,17 +246,17 @@ function getEmd() {
 				method: 'POST'
 			}).then(function(response) {
 				code.value = Backend.parsingXMLData(response._bodyInit);
-				code.value.items.forEach(function(item) {
+				code.value.response.body.items.forEach(function(item) {
 					address.data3.add(item.item.ADDR3);
 				})
-				if (code.value.totalCount > 10) {
+				if (code.value.response.body.totalCount > 10) {
 					url = url + '&pageNo=';
-					for (var i = 2 ; (i-1)*10 <= code.value.totalCount ; i++) {
+					for (var i = 2 ; (i-1)*10 <= code.value.response.body.totalCount ; i++) {
 						fetch(url+i, {
 							method: 'POST'
 						}).then(function(response) {
 							code.value = Backend.parsingXMLData(response._bodyInit);
-							code.value.items.forEach(function(item) {
+							code.value.response.body.items.forEach(function(item) {
 								address.data3.add(item.item.ADDR3);
 							})
 						});
@@ -258,7 +282,7 @@ function closePanel() {
 module.exports = {
 	getData,
 
-	items,
+	items, showItems,
 
 	showData, resultText,
 
@@ -275,8 +299,9 @@ module.exports = {
 
 	closePanel,
 
-	goDetail: function() {
-		router.push("detailData", {PLNM_NO:PLNM_NO, PBCT_NO:PBCT_NO});
+	goDetail: function(arg) {
+		data = arg.data.item;
+		router.push("detailData", data);
 	},
 	goBack: function() {
 		router.goBack();
