@@ -103,13 +103,8 @@ function parsingXMLData(xmlData) {
 		}
 		findLocation = 0;
 
-		for (var j =0 ; j<xmlData.match(/</g).length ; j++) {
-			findLocation = xmlData.indexOf('/'+findText, findLocation+1);
-			if (xmlData.indexOf('/'+findText, findLocation+1) == -1) {
-				backAttribute = findString(xmlData, findLocation+1)
-				break;
-			}
-		}
+		findLocation = xmlData.indexOf('/'+frontAttribute, 0);
+		backAttribute = findString(xmlData, findLocation+1);
 
 //		console.log(frontAttribute + '/' + backAttribute);
 		modifyText = '}, {"' + findText + '"';

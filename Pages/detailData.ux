@@ -102,9 +102,7 @@
 			<Rectangle Width="10" Height="10" Color="Blue" Opacity="{panel.auction.Opacity}" ZOffset="{panel.auction.ZOffset}" />
 
 			<ScrollView Opacity="{panel.noticeText.Opacity}" ZOffset="{panel.noticeText.ZOffset}">
-				<Each Items="{item.detailItem.response.body.items}">
-					<Text Font="han" Background="#9df" Value="{item.bidDetailInfo.PLNM_DOC}" />
-				</Each>
+				<Text Font="han" Background="#9df" Value="{item.detailItem.response.body.items.item.bidDetailInfo.PLNM_DOC}" />
 			</ScrollView>
 
 			<Rectangle Width="10" Height="10" Color="Yellow" Opacity="{panel.date.Opacity}" ZOffset="{panel.date.ZOffset}" />

@@ -24,6 +24,7 @@ this.Parameter.onValueChanged(function(x) {
 		//console.log(JSON.stringify(response));
 		item.detailItem.value = Backend.parsingXMLData(response._bodyInit);
 		//console.log(JSON.stringify(item.detailItem.value.response.body.items[0].item.bidDetailInfo.PLNM_DOC));
+		console.log(JSON.stringify(item.detailItem.value));
 	}).catch(function(error){
 		console.log(JSON.stringify(error));
 	});
