@@ -26,16 +26,17 @@ var resultText = Observable("This place show you data.");
 Storage.read("search.xml")
 	.then(function(contents) {
 		items.value = Backend.parsingXMLData(contents);
-		console.log("Reading is OK");
+//		console.log(JSON.stringify(items.value));
 		for (var i = 0 ; i < items.value.response.body.items.length-1 ; i++) {
 			if (items.value.response.body.items[i].item.PLNM_NO != items.value.response.body.items[i+1].item.PLNM_NO) {
-				showItems.add(items.value.response.body.items[i].item);
+//				console.log(JSON.stringify(items.value.response.body.items[i].item));
+				showItems.add(items.value.response.body.items[i]);
 			}
 			if (i == items.value.response.body.items.length-2) {
 				showItems.add(items.value.response.body.items[i+1]);
 			}
 		}
-		//console.log(JSON.stringify(showItems.value));
+//		console.log(JSON.stringify(showItems));
 	}, function(error) {
 		console.log(error);
 	});

@@ -23,7 +23,9 @@
 			<searchData ux:Template="searchData" router="router" />
 			<detailData ux:Template="detailData" router="router" />
 			<savedPage ux:Template="savedPage" router="router" />
+			<localNotification ux:Template="localNotification" router="router" />
 			<makingPage ux:Template="makingPage" router="router" />
+			<scrollingAnimation ux:Template="scrollingAnimation" router="router" />
 		</Navigator>
 	</ClientPanel>
 </App>

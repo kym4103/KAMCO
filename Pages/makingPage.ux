@@ -1,32 +1,245 @@
 <Page ux:Class="makingPage">
 	<Router ux:Dependency="router" />
 
-	<JavaScript>
-		var Observable = require('FuseJS/Observable');
-		var Storage = require('FuseJS/Storage');
-		var Backend = require("Backend.js");
+    <JavaScript>
+        var Observable = require('FuseJS/Observable');
+        var Backend = require("Backend");
 
-		var item = {"response":{"header":{"resultCode":"00", "resultMsg":"NORMAL SERVICE."}, "body":{"items":{"item":{"bidDetailInfo":{"PLNM_NM":"(서울지역본부) 2016년 제036차 압류재산 공매공고", "organInfo":{"ORG_NM":"한국자산관리공사", "RSBY_DEPT":"서울지역본부", "PSCG_NM":"물건정보참조", "PSCG_TPNO":"02-1588-5321", "PSCG_EMAL_ADRS":"wonjongin@kamco.or.kr"}, "saleInfo":{"PLNM_KIND_NM":"일반공고", "PLNM_DT":"20160907", "PLNM_YR":"2016", "PLNM_SEQ":"036", "PRPT_DVSN_NM":"압류재산(캠코)", "AST_DVSN_NM":"DEFAULT", "PLNM_MNMT_NO":"201609-21005-00", "ORG_PLNM_NO":""}, "bidInfo":{"RLTN_PLNM_NO":"0", "RLTN_PLNM_TITL":"", "BID_MTD_NM":"최고가방식", "DPSL_MTD_NM":"매각", "CPTN_MTD_NM":"일반경쟁", "TOT_AMT_UNPC_DVSN_NM":"총액", "PTCT_QLFC":"", "RBD_YN":"N", "COMN_BID_PMSN_YN":"Y", "SUBT_BID_PMSN_YN":"Y"}, "PLNM_DOC":"                                   \r\n                                   제 036 차 압류재산공매공고                                  \r\n                                                                                                        \r\n                                                                                                        \r\n 국세 및 지방세 등 체납에 의한 압류재산을 아래와 같이 공매공고 합니다.                                  \r\n                                                                                                        \r\n 1. 입찰방법                                                                                            \r\n                                                                                                        \r\n   가. 압류재산 공매는 국세기본법상의 정보통신망(한국자산관리공사가 운영하는 전자자산처분시스템, 이하   \r\n       “온비드”라 한다)을 이용한 인터넷 공매이므로 입찰에 참가하려는 자는 반드시 온비드에 회원가입 및   \r\n       실명확인을 위한 공인인증기관의 공인인증서를 등록하여야 합니다.                                   \r\n   나. 입찰기간 내에 온비드에 입찰서를 제출하고 입찰마감 시간전까지 지정된 예금계좌에 공매보증금을\r\n       납부하여야 유효합니다.\r\n     ① 2016년1월1일이후 최초로공매공고:매각예정가격의 100분의 10 이상                                 \r\n     ② 2016년1월1일이전 공매공고:입찰가격의 100분의 10 이상                                            \r\n   다. 입찰결과 유찰자의 공매보증금과 입찰후 개찰일시 전 공매(입찰)취소사유가 발생할 경우 입찰자의\r\n       공매보증금은 입찰서 제출시 지정된 환불계좌로 이자없이 환불되며,별도의 송금수수료가 발생될 경우에는   \r\n       공매보증금에서 이를 공제합니다.                                                                  \r\n   라. 온비드의 장애 및 기타사유로 인하여 입찰진행이 어려운 경우에는 입찰이 연기 또는 중지될 수          \r\n       있습니다.                                                                                        \r\n                                                                                                        \r\n 2. 낙찰자의 결정                                                                                       \r\n                                                                                                        \r\n   가. 일반경쟁입찰(단독입찰도가능)로서 매각물건별 매각예정가격 이상인 최고액의 입찰자를 낙찰자로        \r\n       결정합니다.                                                                                          \r\n   나. 낙찰이 될 동일가격 입찰자가 2인 이상인 때에는 즉시 온비드에 의한 무작위 추첨으로 낙찰자를        \r\n       결정합니다.                                                                                      \r\n                                                                                                        \r\n 3. 대금납부                                                                                            \r\n                                                                                                        \r\n   가. 낙찰자는 매각결정 통지서를 교부받아 납부기한까지 지정된 입금계좌로 매수대금을 납부하여야         \r\n       합니다.                                                                                          \r\n   나. 납부기한                                                                                         \r\n    ① 2013년 1월 1일 이후 최초로 공매공고                                                          \r\n       ▶낙찰가격 3,000만원 이상은 매각결정기일로부터 30일이내                                          \r\n       ▶낙찰가격 3,000만원 미만은 매각결정기일로부터  7일이내                                          \r\n                                                                                                        \r\n    ② 2012년 1월 1일 이후 최초로 공매공고                                                              \r\n       ▶낙찰가격 1,000만원 이상은 매각결정기일로부터 30일이내                                          \r\n       ▶낙찰가격 1,000만원 미만은 매각결정기일로부터  7일이내                                          \r\n                                                                                                        \r\n    ③ 2011년 12월 31일 이전 공매공고                                                              \r\n       ▶낙찰가격 1,000만원 이상은 매각결정기일로부터 60일이내                                          \r\n       ▶낙찰가격 1,000만원 미만은 매각결정기일로부터  7일이내                                          \r\n                                                                                                        \r\n   다. 납부방법 : 일시납부                                                                              \r\n                                                                                                        \r\n 4. 공매재산의 명칭, 소재, 수량, 품질, 매각예정가격, 그 밖의 중요한 사항                                \r\n   - 공고재산의 표시 목록과같습니다.                                                          \r\n                                                                                                        \r\n 5. 입찰기간 및 개찰 장소와 일시, 매각결정기일                                                          \r\n   - 공고재산의 표시 목록과같습니다.                                                          \r\n                                                                                                        \r\n 6. 배분요구의 종기                                                                                     \r\n   - 개별 공매공고재산의 배분요구 종기는 표시목록과 같으며, 공매공고에 대한 등기(등록)이 지연되거나\r\n     누락되는 등의 사유로 공매절차가 진행되지 못하는 경우 배분요구의 종기가 최초의 입찰기일 이후로 \r\n     연기될 수 있습니다.                                                                                          \r\n                                                                                                        \r\n 7. 배분요구의 종기까지 배분요구 하여야만 배분받을 수 있는 채권                                         \r\n   가. 공매공고의 등기 또는 등록전 까지 등기되지 아니하거나 등록되지 아니한 다음 각 호의 채권을 가진 자가 \r\n       배분을 받으려면 배분요구의 종기까지 한국자산관리공사에 국세징수법 시행규칙 별지 제52호의2서식의\r\n       채권신고 및 배분요구서에 의한 서면으로 배분을요구하여야합니다.    \r\n     ① 압류재산에 관계되는 체납액                                                                      \r\n     ② 교부청구와 관계되는 체납액·지방세 또는 공과금                                                   \r\n     ③ 압류재산에 관계되는 전세권·질권 또는 저당권에 의하여 담보된 채권                                \r\n     ④ 「주택임대차보호법」 또는 「상가건물 임대차보호법」에 따라 우선변제권이 있는 임차보증금         \r\n        반환채권                                                                                        \r\n     ⑤ 「근로기준법」 또는 「근로자퇴직급여 보장법」에 따라 우선변제권이 있는 임금, 퇴직금, 재해       \r\n        보상금 및 그 밖에 근로관계로 인한 채권                                                          \r\n     ⑥ 압류재산에 관계되는 가압류채권                                                                  \r\n     ⑦ 집행력 있는 정본에 의한 채권                                                                    \r\n     ⑧ 매각으로 소멸되지 아니하는 전세권, 매각으로 소멸되는 담보목적의 가등기권                        \r\n                                                                                                        \r\n   나. 위 “가”항의 채권자의 배분요구에 따라 매수인이 인수하여야 할 부담이 달라지는 경우 배분요구를 \r\n       한자는 배분요구의 종기가 지난 뒤에 이를 철회하지 못합니다.                                    \r\n                                                                                                        \r\n 8. 공매재산에 대하여 매각으로도 소멸되지 아니하는 공매재산에 대한 지상권, 전세권, 대항력 있는\r\n    임차권 또는 가등기가 있는 경우 그 사실       \r\n   - 공고재산의 표시 목록과같습니다.                                                              \r\n                                                                                                        \r\n 9. 공매재산의 매수인으로 일정한 자격이 필요한 경우 그 사실                                             \r\n   - 공고재산의 표시 목록과같습니다.                                            \r\n                                                                                                        \r\n 10. 공매할 지목 또는 지적이 토지대장의 표시와 상이할 때에 그 내용                                      \r\n   - 공고재산의 유의사항 내역과 같습니다.                                                               \r\n                                                                                                        \r\n 11. 공매재산에 대한 자료제공 내용 및 기간                                                              \r\n   - 공매회차별 입찰시작 7일전부터 입찰 마감전까지 온비드 물건정보에 게시합니다.                       \r\n                                                                                                        \r\n 12. 공매재산의 명도책임 및 인도                                                                        \r\n   - 부동산의 명도책임은 매수인이며,동산은 물건소재지에서 인수시점 상태대로 인도합니다.                 \r\n                                                                                                        \r\n 13. 매각재산의 권리이전                                                                                \r\n   가. 매수인은 매수대금을 납부한때에 매각재산을 취득하며,매수인이 인수하지 않는 부담의 등기는 모두     \r\n       말소됩니다.                                                                                      \r\n   나. 매각재산의 권리이전에 따르는 제비용은 매수인이 부담합니다.                                       \r\n   다. 소유권 이전 절차는 온비드 자료실을 통하여 확인할 수 있으며, 우리 공사 콜센터(1588-5321) 또는     \r\n       압류재산 소재지 관할 부점을 통하여 세부적인 사항을 안내받을 수 있습니다.                         \r\n                                                                                                        \r\n 14. 공매(입찰)의 취소 : 다음 각 호의 사유가 발생하여 공매를 중지하였거나 입찰을 취소한 때에는 해당    \r\n     공매재산의 공매(입찰)을 취소합니다.                                                                \r\n   가. 해당 공매재산의 압류를 해제한 경우                                                               \r\n   나. 국세징수법 제85조의2에 따라 체납처분을 유예한 때                                                 \r\n   다. 「행정소송법」 제23조에 따라 법원이 체납처분에 대한 집행정지의 결정을 한 때                      \r\n   라. 관서의 장이 직권으로 또는 국세징수법시행령 제68조의4제1항에 따른 한국자산관리공사의 요구에 \r\n   따라 해당 재산에 대한 공매대행 의뢰를 해제한 경우                                                     \r\n   마. 체납자 또는 이해관계자에게 공매통지서가 송달되지 아니한 경우                                     \r\n   바. 그 밖에 입찰을 진행할 수 없는 사유가 발생한 경우                                                 \r\n                                                                                                        \r\n 15. 공유자 우선매수 신고                                                                               \r\n   가. 공매재산이 공유물의 지분인 경우 공유자가 매각결정 기일 전까지 국세징수법 제65조에 따른\r\n   공매보증금을 제공하고 매각예정가격 이상인 최고입찰가격과 같은 가격으로 우선매수하겠다는\r\n   신고를 한 때에는 공유자에게 매각결정 합니다.                                                                      \r\n   나. 공유자에게 매각결정한 경우 매수대금의 납부 전까지 낙찰자가 공매보증금을 반환받지 아니한 때에는   \r\n       최고액의 입찰자 지위를 가지게 되며, 우선매수신고한 공유자가 매수대금을 납부하지 아니하였을       \r\n       때에는 최고액의 입찰자에게 다시 매각결정을 합니다.                                      \r\n   다. 최고액의 입찰자가 없는 때에 공매재산의 공유자가 우선매수를 신고하는 경우에는 매각예정가격을      \r\n       최고액의 입찰가격과 같은 가격으로 하여 신고하여야 합니다.         \r\n                                                                                                        \r\n 16. 입찰자의 차순위 매수신고                                                                           \r\n   가. 위 공고내용 제2번의 내용에 따라 결정된 낙찰자가 납부기한까지 매수대금을 납부하지 않아\r\n   매각결정을 취소하는 경우(국세징수법 제78조제1항제2호) 최고액 입찰가격에서 공매보증금을 \r\n   뺀 금액 이상의 가격으로 입찰서를 제출한 입찰자(차순위 매수신고 가능자)가 매각결정 기일 전까지\r\n   공매보증금을 제공하고 공매재산을 매수하겠다는 신고(차순위 매수신고)를 한 때에는 \r\n   매각결정을 취소한 날부터 3일 이내에 차순위 매수신고를 한 입찰자에게 매각결정을 합니다.                                               \r\n   나. 차순위 매수신고자가 둘 이상인 경우에는 최고액의 매수신고자를 차순위 매수신고자로 정하며,\r\n   최고액의 매수신고자가 둘 이상인 경우에는 추첨으로 차순위 매수신고자를 정한다.                             \r\n                                                                                                        \r\n 17. 매각결정 및 매각여부 결정                                                                          \r\n   가. 낙찰자를 매수인으로 정하는 매각결정은 매각결정기일에하며, 다음 각 호의 사유가 발생한때에는       \r\n       매각결정을 하지 않습니다.                                                                        \r\n     ① 매각결정 전에 국세징수법 제71조에 따른 공매중지 사유가 있는 경우                                \r\n     ② 낙찰자가 국세징수법 제72조에 따른 공매참가의 제한을 받는 자로 확인된 경우                       \r\n     ③ 국세징수법 제73조의2에 따라 공유자가 우선매수의 신고를 한 경우                                  \r\n     ④ 그 밖에 매각결정을 할 수 없는 중대한 사실이 있다고 인정하는 경우                                \r\n   나. 입찰자, 낙찰자 또는 매수인이 다음 각 호의 서류에 대하여 전자송달을 신청하는 경우 신고된\r\n   전자우편 주소로 통지합니다.    \r\n     ① 매각결정통지서                                        \r\n     ② 매각결정여부통지서                           \r\n     ③ 매수대금납부최고서                                     \r\n     ④ 매각결정취소통지서                                    \r\n                                                                                                        \r\n 18. 매각결정의 취소                                                                                    \r\n   가. 다음 각 호에 해당하는 경우에는 공매중지 또는 매각결정이 취소됩니다.                              \r\n     ① 매각결정기일에 매각결정을 한 후 매수인이 매수대금을 납부하기 전에 체납자가 매수인의 동의를얻어  \r\n       압류와 관련된 체납액을 납부하고 매각결정의 취소를 신청하는경우                                   \r\n     ② 법원에서 민사집행중인 재산을 우리공사 공매에서 낙찰받은 경우에 매수인이 매수대금을 \r\n       납부하기 전에 법원경매 매수인이 매각대금을 먼저 집행법원에 납부하는 경우                                  \r\n     ③ 매수인의 귀책이 아닌, 공매진행을 할 수 없는 중대한 사유가 발생한 경우                           \r\n     ④ 매수인이 매수대금을 지정된 기한까지 납부하지 않는 경우                                          \r\n   나. 위 “가”의 ①②③의 경우 공매보증금은 매수인에게 반환하며,④의경우 매수인이 납부한 공매보증금은   \r\n       그 전액에 대하여 국세징수법 제65조 제4항에 따라 반환되지 않습니다.     \r\n   다. 매각결정기일 전에 체납자 또는 제3자가 그 체납액을 완납하거나 압류해제 사유 및 그밖에 \r\n       매각결정을 할 수 없는 중요한 사유가 발생하여 매각결정취소를 요청하는 경우 또는 그러한 사실이\r\n       추후 확인될 경우 최고액 입찰자에게 매각결정을 하지 않을수도 있습니다.                                        \r\n                                                                                                        \r\n 19. 주의사항                                                                                           \r\n   가. 부동산의 표시는 부동산등기사항증명서 기준이며,수량은 법정계량단위 기준입니다.                    \r\n   나. 공매재산에 있어 물건의 특성상 매각에 의하여 소멸되지 아니하는 부동산의 권리와 공부 및 지적부상   \r\n       표시의 상이나 행정상의 규제 또는 수량 등의 상이에 대하여 입찰자 책임하에 공부의 열람,현지답사    \r\n       등으로 물건을 확인하시기 바랍니다.                                                               \r\n   다. 공매재산 중 농지(전,답,과수원등)에 대해서는 농지법 제8조에 따라 농지취득자격증명을 발급받을 수   \r\n       개인과 농업법인만이 소유권 이전등기를 받을수있고,농지취득자격증명을 발급받지 못하는 개인이나     \r\n       일반법인이 농지를 낙찰받은후 농지취득자격증명을 발급받지 못하여 소유권이전등기를 할 수 없더라도  \r\n       매각결정은 취소되지 않으므로 입찰자 책임하에 사전조사하고 입찰에 참가하시기 바랍니다.            \r\n   라. 공매재산의 권리이전시 일정한 매수인의 자격을 요하는 경우가 있으므로 개별 물건별로 확인하여\r\n        주시기 바라며,자격을 증명하는 서면의 제출이 없는 경우 권리이전이 정상적으로 이루어지지\r\n        않을수 있습니다. 이 경우 매각결정은 취소되지 않으므로 입찰자 책임하에 사전조사하고 입찰에\r\n        참가하시기 바랍니다.    \r\n   마. 주거용건물(또는상가건물)의 경우 등기부상 최선순위 권리자(근저당권,(가)압류권등)보다 먼저 주택의  \r\n       인도 및 주민등록 전입신고 등의 대항요건을 갖추고 있는 임차인(상가건물의 경우는 건물의 인도와     \r\n       사업자등록 신청한 임차인)이 있을 때에는 낙찰자는 매수대금 외에 임차보증금을 별도로 인수하여야    \r\n       하는 경우가 생길수 있으므로 임대차 관계 등에 대하여는 입찰자 책임 하에 사전조사하고입찰에        \r\n       참가하시기 바랍니다.                                                                             \r\n   바. 「토지이용규제 기본법」에 의한 토지이용 계획 등 공법상의 규제사항에 대하여는 해당관청에          \r\n        사전 확인 후 입찰에 참가하시기 바랍니다.                                                        \r\n   사. 공매재산에 대한 실물확인 및 상태점검은 공매재산 소재지 현장에서 입찰자 책임 하에 확인하시기      \r\n        바랍니다.  \r\n   아. 입찰하려는 자가 미성년자이거나 다른 사람을 선임하여 입찰에 참가하고자 하는 경우에는 \r\n       다음 각 호의 서류를 입찰마감 시간 전까지 우리 공사에 직접 제출을 하여야 합니다.                               \r\n      ① 입찰자가 미성년자인 경우 : 법정대리인의 동의서 및 인감증명서와 법정대리인임을 확인할 수 있는 서류\r\n      ② 대리인을 선임한 경우 : 공사 소정의 대리입찰신청서 및 위임인의 인감증명서\r\n      (법인의 경우 법인등기부등본 또는 초본 포함)                                                         \r\n   자. 공동명의로 입찰하려는 자는 인터넷 입찰마감시간 전까지 대표입찰자가 우리공사 소정의               \r\n       공동입찰참가신청서(인감증명서를 첨부한 위임장포함)를 우리공사에 제출하여야 합니다.기한내         \r\n       공동입찰참가신청서 미제출시 대표입찰자 명의로 입찰하였다 하더라도 입찰은 무효 처리됩니다.        \r\n   차. 위 공고내용 중 제1번 “나”호의 ⓛ, 제15번 “다”호 및 제16번 “가”호는 2016년 1월 1일 이후 최초로    \r\n       공매공고하는 재산에만 적용됩니다.                                                      \r\n   카. 위 공고내용 중 제3번“나”호의 ②, 제6번, 제7번, 제11번은 2012년 1월 1일이후 최초공매공고하는      \r\n       재산부터 적용되며, 제3번 “나”호의 ⓛ은 2013년 1월 1일 이후 최초로 공매공고하는 재산에만 적용됩니다.\r\n   타. 위 공고내용중 제15번 “가”호, 제17번 “가”호의 ①, 제18번“가”호의 ① 및“다”호의 기준일은\r\n        2012년 1월 1일 이후 최초공매공고하는 재산의경우 &#034;매각결정기일&#034;이고,그 전 공매공고 되었던 재산은\r\n        &#034;매각결정통지&#034;시점입니다.\r\n   파. 본 공고문상의 내용 외에 준수할사항은 국세징수법,지방세기본법등 관련법과 우리 공사 \r\n       &#034;압류재산인터넷 공매입찰 참가자 준수규칙&#034;에의합니다.                                        \r\n                                                                                                        \r\n                                 한국자산관리공사 서울지역본부장                                    \r\n                                                                                                        \r\n ※ 안  내\r\n 1. 압류재산은 국토의 계획 및 이용에 관한 법률 시행령 제121조 제12호에 의거 토지거래허가 절차가         \r\n    필요하지 않습니다.                                                                                  \r\n 2. 압류재산은 국토해양부 고시 제2009-719호 `주택거래신고 업무처리 지침`에 의거 주택거래신고 절차가     \r\n    필요하지 않습니다.                                                                                  \r\n 3. 매각물건에 관하여 궁금하신 사항은 평일 09시 30분부터 17시 30분 사이에 전화 또는 온비드              \r\n    (www.onbid.co.kr) 고객만족센터(1588-5321)로 연락하시면 친절히 안내해 드립니다.\r\n\r\n ※ 입찰참가자 대상 부패행위 신고제도 안내\r\n   공사는 부정부패 없는 공공기관이 되기 위해 「한국자산관리공사 임직원 행동강령」에 따라 \r\n   「클린신고센터」를 운영하고 있으니, 압류재산 공매업무와 관련한 금품, 상품권, 선물, 향응 등의\r\n   요구 및 수수행위 발생시 아래의 방법으로 신고하여 주기 바랍니다.\r\n   ◇ 우편 : (48400) 부산광역시 남구 문현금융로 40 부산국제금융센터(BIFC) 한국자산관리공사 감사실\r\n   ◇ 인터넷 : 한국자산관리공사 홈페이지 (http://www.kamco.or.kr)-&gt;고객서비스-&gt;신고센터\r\n   ◇ 스마트폰 : 「레드휘슬 헬프라인」 앱 이용", "totalCount":"1"}, "bidDateInfos":[{"bidDateInfoItem":{"PBCT_NO":"9243996", "PBCT_SEQ":"040", "PBCT_DGR":"001", "BID_DVSN_NM":"인터넷", "TWPS_LSTH_USBD_YN":"N", "TWTM_GTHR_BID_PSBL_YN":"Y", "ELTR_GRT_DOC_USE_YN":"N", "PTCT_CMSN":"0", "TDPS_RT":"10", "PBCT_BEGN_DTM":"20161017100000", "PBCT_CLS_DTM":"20161019170000", "PBCT_EXCT_DTM":"20161020110000", "OPBD_PLC_CNTN":"전자자산처분시스템\n\r(www.onbid.co.kr)", "totalCount":"6"}}, {"bidDateInfoItem":{"PBCT_NO":"9246446", "PBCT_SEQ":"041", "PBCT_DGR":"001", "BID_DVSN_NM":"인터넷", "TWPS_LSTH_USBD_YN":"N", "TWTM_GTHR_BID_PSBL_YN":"Y", "ELTR_GRT_DOC_USE_YN":"N", "PTCT_CMSN":"0", "TDPS_RT":"10", "PBCT_BEGN_DTM":"20161024100000", "PBCT_CLS_DTM":"20161026170000", "PBCT_EXCT_DTM":"20161027110000", "OPBD_PLC_CNTN":"전자자산처분시스템\n\r(www.onbid.co.kr)", "totalCount":"6"}}, {"bidDateInfoItem":{"PBCT_NO":"9248835", "PBCT_SEQ":"042", "PBCT_DGR":"001", "BID_DVSN_NM":"인터넷", "TWPS_LSTH_USBD_YN":"N", "TWTM_GTHR_BID_PSBL_YN":"Y", "ELTR_GRT_DOC_USE_YN":"N", "PTCT_CMSN":"0", "TDPS_RT":"10", "PBCT_BEGN_DTM":"20161031100000", "PBCT_CLS_DTM":"20161102170000", "PBCT_EXCT_DTM":"20161103110000", "OPBD_PLC_CNTN":"전자자산처분시스템\n\r(www.onbid.co.kr)", "totalCount":"6"}}, {"bidDateInfoItem":{"PBCT_NO":"9248836", "PBCT_SEQ":"043", "PBCT_DGR":"001", "BID_DVSN_NM":"인터넷", "TWPS_LSTH_USBD_YN":"N", "TWTM_GTHR_BID_PSBL_YN":"Y", "ELTR_GRT_DOC_USE_YN":"N", "PTCT_CMSN":"0", "TDPS_RT":"10", "PBCT_BEGN_DTM":"20161107100000", "PBCT_CLS_DTM":"20161109170000", "PBCT_EXCT_DTM":"20161110110000", "OPBD_PLC_CNTN":"전자자산처분시스템\n\r(www.onbid.co.kr)", "totalCount":"6"}}, {"bidDateInfoItem":{"PBCT_NO":"9251145", "PBCT_SEQ":"044", "PBCT_DGR":"001", "BID_DVSN_NM":"인터넷", "TWPS_LSTH_USBD_YN":"N", "TWTM_GTHR_BID_PSBL_YN":"Y", "ELTR_GRT_DOC_USE_YN":"N", "PTCT_CMSN":"0", "TDPS_RT":"10", "PBCT_BEGN_DTM":"20161114100000", "PBCT_CLS_DTM":"20161116170000", "PBCT_EXCT_DTM":"20161117110000", "OPBD_PLC_CNTN":"전자자산처분시스템\n\r(www.onbid.co.kr)", "totalCount":"6"}}, {"bidDateInfoItem":{"PBCT_NO":"9251146", "PBCT_SEQ":"045", "PBCT_DGR":"001", "BID_DVSN_NM":"인터넷", "TWPS_LSTH_USBD_YN":"N", "TWTM_GTHR_BID_PSBL_YN":"Y", "ELTR_GRT_DOC_USE_YN":"N", "PTCT_CMSN":"0", "TDPS_RT":"10", "PBCT_BEGN_DTM":"20161121100000", "PBCT_CLS_DTM":"20161123170000", "PBCT_EXCT_DTM":"20161124110000", "OPBD_PLC_CNTN":"전자자산처분시스템\n\r(www.onbid.co.kr)", "totalCount":"6"}}], "files":"\r\n\r\n"}}, "pageNo":"1", "totalCount":"1", "numOfRows":"10"}}};
+        var address = {
+                sido: Observable("시도"),
+                sgk: Observable("시군구"),
+                emd: Observable("읍면동"),
+                data1: Observable(),
+                data2: Observable(),
+                data3: Observable()
+            };
 
-//		Storage.read("book.xml")
-//			.then(function(contents) {
-//				console.log("start");
-//				item.value = Backend.parsingXMLData(contents);
-//			}, function(error) {
-//				console.log(error);
-//			})
-		
-		function date() {
-			// body...
-		}
+       function fetchJson(url) {
+            var req = new Request(url);
+            return fetch(req, {mode: "GET"}).then(function(response) {
+                    return Backend.parsingXMLData(response._bodyInit);
+                }).catch(function(error) {
+                    console.log(JSON.stringify(error));
+                    console.log("fetch request error :(");
+                });
+        }
 
-		module.exports = {
-			date, item
-		};
-	</JavaScript>
+//        getSido();
 
-	<StackPanel Background="Black">
-		<Text Value="{item.response.body.numOfRows}" />
-		
-	</StackPanel>
+        function selectSido(arg) {
+            if (address.sido.value != arg.data) {
+                address.sgk.replaceAll(["시군구"]);
+                address.emd.replaceAll(["읍면동"]);
+            }
+
+            address.sido.value = arg.data;
+            address.data1.clear();
+
+            getSgk();
+        }
+        //시도 구역 받아오기
+        function getSido() {
+            var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr1Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D';
+
+            fetchJson(url).then(function(responseObject) {
+                responseObject.response.body.items.forEach(function(item) {
+                    address.data1.add(item.item.ADDR1);
+                })
+
+                if(responseObject.response.body.totalCount > 10) {
+                    url += '&pageNo=';
+                    for (var i = 2 ; (i-1)*10 <= responseObject.response.body.totalCount ; i++) {
+                            fetchJson(url+i).then(function(responseObject) {
+                                responseObject.response.body.items.forEach(function(item) {
+                                    address.data1.add(item.item.ADDR1);
+                                });
+                            });
+                        }
+                }
+                address.data1.removeRange(0, 1);
+            })
+
+            if (address.data1.length == 0) {
+/*                code.value.response.body.items.forEach(function(item) {
+                    address.data1.add(item.item.ADDR1);
+                })
+
+                if(code.value.response.body.totalCount > 10) {
+                    url += '&pageNo=';
+                    for (var i = 2 ; (i-1)*10 <= code.value.response.body.totalCount ; i++) {
+                            code.value = fetchJson(url+i);
+                            code.value.response.body.items.forEach(function(item) {
+                                address.data1.add(item.item.ADDR1);
+                            });
+                        }
+                }*/
+/*                fetch(url, {
+                    method: 'POST'
+                }).then(function(response) {
+                    code.value = Backend.parsingXMLData(response._bodyInit);
+                    code.value.response.body.items.forEach(function(item) {
+                        address.data1.add(item.item.ADDR1);
+                    })
+                    if (code.value.response.body.totalCount > 10) {
+                        url = url + '&pageNo=';
+                        for (var i = 2 ; (i-1)*10 <= code.value.response.body.totalCount ; i++) {
+                            fetch(url+i, {
+                                method: 'POST'
+                            }).then(function(response) {
+                                code.value = Backend.parsingXMLData(response._bodyInit);
+                                code.value.response.body.items.forEach(function(item) {
+                                    address.data1.add(item.item.ADDR1);
+                                })
+                            });
+                        }
+                    }
+                    address.data1.removeRange(0, 1);
+                }); */
+            }
+        }
+        //시군구 구역 선택
+        function selectSgk(arg) {
+            if (address.sgk.value != arg.data) {
+                address.emd.replaceAll(["읍면동"]);
+            }
+
+            address.sgk.value = arg.data;
+            address.data2.clear();
+
+            getEmd();
+        }
+        //시군구 구역 받아오기
+        function getSgk() {
+            if (address.sido.value != "시도") {
+                var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr2Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&ADDR1='+address.sido.value;
+
+
+                fetchJson(url).then(function(responseObject) {
+                    responseObject = responseObject;
+                    responseObject.response.body.items.forEach(function(item) {
+                        address.data2.add(item.item.ADDR2);
+                    })
+
+                    if(responseObject.response.body.totalCount > 10) {
+                        url += '&pageNo=';
+                        for (var i = 2 ; (i-1)*10 <= responseObject.response.body.totalCount ; i++) {
+                                fetchJson(url+i).then(function(responseObject) {
+                                    responseObject.response.body.items.forEach(function(item) {
+                                        address.data2.add(item.item.ADDR1);
+                                    });
+                                });
+                            }
+                    }
+                })
+/*                if (address.data2.length == 0) {
+                    fetch(url, {
+                        method: 'POST'
+                    }).then(function(response) {
+                        code.value = Backend.parsingXMLData(response._bodyInit);
+                        code.value.response.body.items.forEach(function(item) {
+                            address.data2.add(item.item.ADDR2);
+                        })
+                        if (code.value.response.body.totalCount > 10) {
+                            url = url + '&pageNo=';
+                            for (var i = 2 ; (i-1)*10 <= code.value.response.body.totalCount ; i++) {
+                                fetch(url+i, {
+                                    method: 'POST'
+                                }).then(function(response) {
+                                    code.value = Backend.parsingXMLData(response._bodyInit);
+                                    code.value.response.body.items.forEach(function(item) {
+                                        address.data2.add(item.item.ADDR2);
+                                    })
+                                });
+                            }
+                        }
+                    }).catch(function(error) {
+                        console.log(JSON.stringify(error));
+                    });
+                }*/
+            }
+        }
+        //읍면동 구역 선택
+        function selectEmd(arg) {
+            address.emd.value = arg.data;
+            address.data3.clear();
+        }
+        //읍면동 구역 받아오기
+        function getEmd() {
+            if (address.sgk.value != "시군구") {
+                var code = Observable();
+                var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr3Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&ADDR2='+address.sgk.value;
+
+/*                if (address.data3.length == 0) {
+                    fetch(url, {
+                        method: 'POST'
+                    }).then(function(response) {
+                        code.value = Backend.parsingXMLData(response._bodyInit);
+                        code.value.response.body.items.forEach(function(item) {
+                            address.data3.add(item.item.ADDR3);
+                        })
+                        if (code.value.response.body.totalCount > 10) {
+                            url = url + '&pageNo=';
+                            for (var i = 2 ; (i-1)*10 <= code.value.response.body.totalCount ; i++) {
+                                fetch(url+i, {
+                                    method: 'POST'
+                                }).then(function(response) {
+                                    code.value = Backend.parsingXMLData(response._bodyInit);
+                                    code.value.response.body.items.forEach(function(item) {
+                                        address.data3.add(item.item.ADDR3);
+                                    })
+                                });
+                            }
+                        }
+                    }).catch(function(error) {
+                        console.log(JSON.stringify(error));
+                    });
+                }*/
+            }
+        }
+
+        module.exports = { address, getSido, getSgk, getEmd, selectSido, selectSgk, selectEmd,
+            goBack: function() {
+                router.goBack();
+            }
+        };
+    </JavaScript>
+
+    <StackPanel>
+        <WrapPanel>
+            <Text Font="han" Value="소재지 : " Alignment="Center" />
+            <selectBox>
+                <selectText Value="{address.sido}" Clicked="{getSido}" TextWrapping="Wrap" />
+            </selectBox>
+
+            <selectBox>
+                <selectText Value="{address.sgk}" Clicked="{getSgk}" TextWrapping="Wrap" />
+            </selectBox>
+
+            <selectBox>
+                <selectText Value="{address.emd}" Clicked="{getEmd}" TextWrapping="Wrap" />
+            </selectBox>
+        </WrapPanel>
+
+        <ScrollView>
+            <Rectangle Width="80%" Color="#fff" CornerRadius="4">
+                <Stroke Width="1" Color="Black" />
+
+                <StackPanel>
+                    <Each Items="{address.data1}">
+                        <selectText Value="{}" Clicked="{selectSido}" Alignment="Center" />
+                    </Each>
+
+                    <Each Items="{address.data2}">
+                        <selectText Value="{}" Clicked="{selectSgk}" Alignment="Center" />
+                    </Each>
+
+                    <Each Items="{address.data3}">
+                        <selectText Value="{}" Clicked="{selectEmd}" Alignment="Center" />
+                    </Each>
+                </StackPanel>
+            </Rectangle>
+        </ScrollView>
+        <Button Text="Back" Clicked="{goBack}" />
+    </StackPanel>
+
 </Page>

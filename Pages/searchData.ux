@@ -6,16 +6,20 @@
 	<Rectangle ux:Name="selectPanel" Width="80%" Height="10" Color="#fff" CornerRadius="4" ZOffset="-1" Opacity="0" HitTestMode="None">
 		<Stroke Width="1" Color="Black" />
 
-		<Panel Alignment="TopRight" ZOffset="1" Margin="5" Width="20" Height="20" Background="#ddd">
-			<Rectangle Width="20" Height="2" CornerRadius="1" Color="Black" >
+		<Rectangle Alignment="TopRight" ZOffset="1" Margin="5" Width="20" Height="20" Color="#ddd" CornerRadius="2">
+			<Rectangle Width="15" Height="2" CornerRadius="1" Color="Black" >
 				<Rotation Degrees="45" />
 			</Rectangle>
-			<Rectangle Width="20" Height="2" CornerRadius="1" Color="Black" >
+			<Rectangle Width="15" Height="2" CornerRadius="1" Color="Black" >
 				<Rotation Degrees="-45" />
 			</Rectangle>
 
 			<Clicked><Callback Handler="{closePanel}" /></Clicked>
-		</Panel>
+		</Rectangle>
+
+<!--		<Rectangle Width="95%" Height="30" CornerRadius="5" ZOffset="2" HitTestMode="None" Alignment="Center">
+			<Stroke Width="2" Color="Blue" />
+		</Rectangle>-->
 
 		<ScrollView ZOffset="{showPanel.data1}">
 			<StackPanel>
@@ -42,7 +46,7 @@
 		</ScrollView>
 
 		<WhileTrue Value="{showPanel.base}">
-			<Change selectPanel.Height="400" Duration="0.05" DurationBack="0" />
+			<Change selectPanel.Height="90" Duration="0.05" DurationBack="0" />
 			<Change selectPanel.ZOffset="2" />
 			<Change selectPanel.Opacity="1" />
 			<Change selectPanel.HitTestMode="LocalBoundsAndChildren" />
@@ -111,23 +115,8 @@
 						</StackPanel>
 					</Rectangle>
 				</Each>
-				<!--
-				<Rectangle Width="100%" Color="#eee" Margin="2">
-					<Grid ColumnCount="3">
-						<Text Font="han" Value="Number" Alignment="Center" />
-						<Text Font="han" Value="Name" Alignment="Center" />
-						<Text Font="han" Value="Type" Alignment="Center" />
-						<Each Items="{items.items}">
-							<Text Font="han" Value="{item.CLTR_NO}" Alignment="Center" Clicked="{showData}" />
-							<Text Font="han" Value="{item.CLTR_NM}" Alignment="Center" Clicked="{showData}" />
-							<Text Font="han" Value="{item.DPSL_MTD_NM}" Alignment="Center" Clicked="{showData}" />
-						</Each>
-					</Grid>
-				</Rectangle>
-				-->
 
 				<Text Font="han" Value="{resultText}" TextWrapping="Wrap" Background="#ddd" />
-				<Button Text="Go detail" Clicked="{goDetail}" />
 				<Button Text="Back" Clicked="{goBack}" />
 			</StackPanel>
 		</ScrollView>

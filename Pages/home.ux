@@ -9,15 +9,46 @@
 			goSavedPage: function() {
 				router.push("savedPage");
 			},
+			goLocalNotification: function() {
+				router.push("localNotification");
+			},
 			goMakingPage: function() {
 				router.push("makingPage");
+			},
+			goScrollingAnimation: function() {
+				router.push("scrollingAnimation");
 			}
 		}
 	</JavaScript>
 
+	<Rectangle ux:Class="menuButton" CornerRadius="3">
+		<Stroke Width="1" Color="#eee" />
+		<WhilePressed>
+			<Scale Factor="0.95" />
+		</WhilePressed>
+	</Rectangle>
+
 	<StackPanel>
-		<Button Text="데이터 검색" Clicked="{goSearchData}" />
-		<Button Text="저장된 페이지" Clicked="{goSavedPage}" />
-		<Button Text="makingPage" Clicked="{goMakingPage}" />
+		<Grid ColumnCount="4" Columns="1*, 1*, 1*, 1*" RowCount="4" Rows="1*, 1*, 1*, 1*" CellSpacing="3" Width="100%" BoxSizing="FillAspect" Aspect="1" Margin="3">
+			<menuButton ColumnSpan="4" Color="#19f" Clicked="{goSearchData}">
+				<Text Font="han" Value="데이터 검색" FontSize="30" Alignment="Center" />
+			</menuButton>
+
+			<menuButton ColumnSpan="2" Color="#7d2" Clicked="{goSavedPage}">
+				<Text Font="han" Value="저장된 페이지" FontSize="25" Alignment="Center" />
+			</menuButton>
+
+			<menuButton Color="#e89" Clicked="{goLocalNotification}">
+				<Text Font="han" Value="알림예제" FontSize="20" Alignment="Center" />
+			</menuButton>
+
+			<menuButton Color="#d9c" Clicked="{goMakingPage}">
+				<Text Font="han" Value="연습용" FontSize="20" Alignment="Center" />
+			</menuButton>
+
+			<menuButton Color="#872" ColumnSpan="2" RowSpan="2" Clicked="{goScrollingAnimation}">
+				<Text Font="han" Value="저장된 검색식" FontSize="20" Alignment="Center" />
+			</menuButton>
+		</Grid>
 	</StackPanel>
 </Page>

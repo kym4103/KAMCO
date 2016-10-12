@@ -10,7 +10,7 @@ function parsingXMLData(xmlData) {
 	var deepCount = 1;
 
 	var forDeleteText = findString(xmlData, findLocation);
-	xmlData = xmlData.replace('<'+forDeleteText+'>', "").replace(/\t/g, "").replace(/\r/g, "\\r").replace(/\n/g, "\\n");
+	xmlData = xmlData.replace('<'+forDeleteText+'>', "").replace(/\t/g, "").replace(/\r/g, "\\r").replace(/\n/g, "\\n").replace(/\s\s+/g, "");
 	var attribute = Observable();
 
 	for (var i = 0 ; i < xmlData.match(/</g).length ; i++) {
@@ -149,6 +149,64 @@ function findAttribute(data, location) {
 	k = findDataString(data, i, data.indexOf(j)+2);
 }
 
+// 속성 이름을 한글로 변경하는 함수
+function changeAttributeName(name) {
+	var forChange = {
+		"DPSL_MTD_CD": "처분방식코드",
+		"CTGR_HIRK_ID":  "카테고리 상위ID",
+		"CTGR_HRIK_ID_MID": "카테고리 상위ID(중간)",
+		"SIDO": "시도",
+		"SGK": "시군구",
+		"EMD": "읍면동",
+		"GOODS_PRICE_FROM": "감정가 하한",
+		"GOODS_PRICE_TO": "감정가 상한",
+		"OPEN_PRICE_FROM": "최저입찰가 하한",
+		"OPEN_PRICE_TO": "최저입찰가 상한",
+		"PLNM_NO": "공고번호",
+		"PBCT_NO": "공매번호",
+		"PBCT_CDTN_NO": "공매조건번호",
+		"CLTR_NO": "물건번호",
+		"CLTR_HSTR_NO": "물건이력번호",
+		"SCRN_GRP_CD": "화면그룹코드",
+		"CTGR_FULL_NM": "용도명",
+		"BID_MNMT_NO": "입찰번호",
+		"CLTR_NM": "물건명",
+		"CLTR_MNMT_NO": "물건관리번",
+		"LDNM_ADRS": "물건소재지 (지번)",
+		"NMRD_ADRS": "물건소재지 (도로명)",
+		"DPSL_MTD_NM": "처분방식코드명",
+		"BID_MTD_NM": "입찰방식명",
+		"MIN_BID_PRC": "최저입찰가",
+		"APSL_ASES_AVG_AMT": "감정가",
+		"FEE_RATE": "최저입찰가율",
+		"PBCT_BEGN_DTM": "입찰시작일시",
+		"PBCT_CLS_DTM": "입찰마감일시",
+		"PBCT_CLTR_STAT_NM": "물건상태",
+		"USCBD_CNT": "유찰횟수",
+		"IQRY_CNT": "조회수",
+		"GOODS_NM": "물건상세정보",
+		"MANF": "제조사",
+		"MDL": "모델",
+		"NRGT": "연월식",
+		"GRBX": "변속기",
+		"ENDPC": "배기량",
+		"VHCL_MLGE": "주행거리",
+		"FUEL": "연료",
+		"SCRT_NM": "법인명",
+		"TPBZ": "업종",
+		"ITM_NM": "종목명",
+		"MMB_RGT_NM": "회원권명"
+	};
+
+	for (var o in forChange ) {
+		if (o == name) {
+			return forChange[o];
+		}
+	}
+	return name;
+}
+
 module.exports = {
-	parsingXMLData: parsingXMLData
+	parsingXMLData: parsingXMLData,
+	changeAttributeName: changeAttributeName
 };

@@ -20,8 +20,19 @@
 		</StackPanel>
 
 		<Panel Dock="Fill">
-			<StackPanel Opacity="{panel.basic.Opacity}" ZOffset="{panel.basic.ZOffset}" Margin="2.5, 1.5">
-				<Grid Columns="1*, 2*" CellSpacing="2">
+			<ScrollView>
+				<StackPanel Opacity="{panel.basic.Opacity}" ZOffset="{panel.basic.ZOffset}" Margin="2.5, 1.5">
+					<Each Items="{showItem}">
+						<Grid Columns="1*, 2*" CellSpacing="2">
+							<leftColumn>
+								<Text Font="han" Value="{name}" Margin="1" Alignment="CenterLeft" TextWrapping="Wrap" />
+							</leftColumn>
+							<rightColumn>
+								<Text Font="han" Value="{contents}" Alignment="CenterLeft" TextWrapping="Wrap" Margin="1" />
+							</rightColumn>
+						</Grid>
+					</Each>
+<!--				<Grid Columns="1*, 2*" CellSpacing="2">
 					<leftColumn>
 						<Text Font="han" Value="최저입찰가" Margin="1" />
 					</leftColumn>
@@ -93,7 +104,9 @@
 						<Text Font="han" Background="#9df" Value="{item.basicItem.GOODS_NM}" TextWrapping="Wrap" Margin="1" />
 					</rightColumn>
 				</Grid>
-			</StackPanel>
+			-->
+				</StackPanel>
+			</ScrollView>
 			
 			<Rectangle Width="10" Height="10" Color="Black" Opacity="{panel.onbid.Opacity}" ZOffset="{panel.onbid.ZOffset}" />
 
@@ -101,9 +114,11 @@
 
 			<Rectangle Width="10" Height="10" Color="Blue" Opacity="{panel.auction.Opacity}" ZOffset="{panel.auction.ZOffset}" />
 
-			<ScrollView Opacity="{panel.noticeText.Opacity}" ZOffset="{panel.noticeText.ZOffset}">
-				<Text Font="han" Background="#9df" Value="{item.detailItem.response.body.items.item.bidDetailInfo.PLNM_DOC}" />
-			</ScrollView>
+			<Rectangle Color="#9df" Opacity="{panel.noticeText.Opacity}" ZOffset="{panel.noticeText.ZOffset}" Margin="3" CornerRadius="3">
+				<ScrollView>
+					<Text Font="han" FontSize="10" Value="{item.detailItem.response.body.items.item.bidDetailInfo.PLNM_DOC}"  TextWrapping="Wrap"/>
+				</ScrollView>
+			</Rectangle>
 
 			<Rectangle Width="10" Height="10" Color="Yellow" Opacity="{panel.date.Opacity}" ZOffset="{panel.date.ZOffset}" />
 

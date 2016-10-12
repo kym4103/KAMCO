@@ -1,0 +1,44 @@
+<Page ux:Class="localNotification">
+	<Router ux:Dependency="router" />
+
+	<JavaScript>
+		var Observable = require('FuseJS/Observable');
+		var Storage = require('FuseJS/Storage');
+		var Backend = require("Backend.js");
+		var Timer = require('FuseJS/Timer');
+
+
+		var LocalNotify = require("FuseJS/LocalNotifications");
+
+        LocalNotify.onReceivedMessage = function(payload) {
+            console.log ("Recieved Local Notification: " + payload);
+            LocalNotify.clearAllNotifications();
+        };
+
+        function sendLater() {
+            Timer.create(function() {
+                LocalNotify.now("Finally!", "4 seconds is a long time", "hmm?", true);
+            }, 3000, false);
+        }
+
+        function sendNow() {
+            LocalNotify.now("Boom!", "Just like that", "payload", true);
+        }
+
+        module.exports = {
+            sendNow: sendNow,
+            sendLater: sendLater,
+            goBack: function() {
+            	router.goBack();
+            }
+        };
+    </JavaScript>
+
+	<ScrollView>
+		<StackPanel>
+			<Button Clicked="{sendNow}" Text="Send notification now" Height="60"/>
+			<Button Clicked="{sendLater}" Text="Send notification in 4 seconds" Height="60"/>
+			<Button Clicked="{goBack}" Text="Back" />
+		</StackPanel>
+	</ScrollView>
+</Page>
