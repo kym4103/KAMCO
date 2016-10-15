@@ -8,9 +8,8 @@ using Uno.Collections;
 using Fuse;
 using Fuse.Scripting;
 using Fuse.Reactive;
-//[Require("Xcode.Framework", "@('SystemConfiguration.framework'")]
-//[ForeignInclude(Language.ObjC, "Reachability/Reachability.h")]
-//[ForeignInclude(Language.ObjC, "Reachability/Reachability.m")]
+[ForeignInclude(Language.ObjC, "Reachability/Reachability.h")]
+[ForeignInclude(Language.ObjC, "Reachability/Reachability.m")]
 
 [UXGlobalModule]
 public class CheckWifi : NativeModule
@@ -29,28 +28,31 @@ public class CheckWifi : NativeModule
 	public static object CheckWifiJS(Context c, object[] args)
 	{
 		Checking();
-		return null;
+		return true;
 	}
 
 	[Foreign(Language.Java)]
-	public static extern(Android) void Checking()
+	public static extern(Android) bool Checking()
 	@{
 		boolean isWifiConnect = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting();
-		debug_log(isWifiConnect);
+		android.util.Log.d(isWifiConnect);
+		return true;
 	@}
 
 	[Foreign(Language.ObjC)]
-	public static extern(iOS) void Checking()
+	public static extern(iOS) bool Checking()
 	@{
 		int result = [[Reachability reachabilityForInternetConnection] currentReachabilityStatus];
 		if(result == 1) {
-			debug_log(true);
+			NSLog(@"%@", true);
 		}
+		return true;
 	@}
 
 	extern(!mobile)
-	public static void Checking()
+	public static bool Checking()
 	{
 		debug_log "This is not mobile";
+		return true;
 	}
 }
