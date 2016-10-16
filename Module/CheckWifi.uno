@@ -8,6 +8,8 @@ using Uno.Collections;
 using Fuse;
 using Fuse.Scripting;
 using Fuse.Reactive;
+[Require("Xcode.FrameworkDirectory", "@('Reachability':Path)")]
+[Require("Xcode.Framework", "@('Reachability/SystemConfiguration.framework':Path)")]
 [ForeignInclude(Language.ObjC, "Reachability/Reachability.h")]
 [ForeignInclude(Language.ObjC, "Reachability/Reachability.m")]
 
@@ -41,8 +43,11 @@ public class CheckWifi : NativeModule
 	public static extern(Android) string Checking()
 	@{
 		boolean isWifiConnect = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting();
-		android.util.Log.d(isWifiConnect);
-		return "true";
+		if (android.util.Log.d(isWifiConnect)) {
+			return "1";
+		} else {
+			return "0";
+		}
 	@}
 
 	[Foreign(Language.ObjC)]
@@ -50,15 +55,16 @@ public class CheckWifi : NativeModule
 	@{
 		int result = [[Reachability reachabilityForInternetConnection] currentReachabilityStatus];
 		if(result == 1) {
-			NSLog(@"%@", true);
+			return @"1";
+		} else {
+			return @"0";
 		}
-		return @"true";
 	@}
 
 	extern(!mobile)
 	public static string Checking()
 	{
-//		debug_log "This is not mobile";
-		return "true";
+//		debug_log "This is not a mobile";
+		return "1";
 	}
 }
