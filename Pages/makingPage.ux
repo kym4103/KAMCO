@@ -5,7 +5,12 @@
         var Check = require('CheckWifi');
 
         function check() {
-            Check.CheckWifiJS();
+            Check.CheckWifi("1")
+                .then(function(result) {
+                    console.log(JSON.stringify(result));
+                }, function(err) {
+                    console.log("Error" + err);
+                });
         }
 
         module.exports = { check };

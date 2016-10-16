@@ -22,37 +22,43 @@ public class CheckWifi : NativeModule
 
 		Resource.SetGlobalKey(_instance = this, "CheckWifi");
 
-		AddMember(new NativeFunction("CheckWifiJS", (NativeCallback)CheckWifiJS));
+		AddMember(new NativePromise<string, Fuse.Scripting.Object>("CheckWifi", CheckWifiJS, Converter));
 	}
 
-	public static object CheckWifiJS(Context c, object[] args)
+	static string CheckWifiJS(object[] args)
 	{
-		Checking();
-		return true;
+		return Checking();
+	}
+
+	static Fuse.Scripting.Object Converter(Context context, string str)
+	{
+		var wrapperObject = context.NewObject();
+		wrapperObject["result"] = str;
+		return wrapperObject;
 	}
 
 	[Foreign(Language.Java)]
-	public static extern(Android) bool Checking()
+	public static extern(Android) string Checking()
 	@{
 		boolean isWifiConnect = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting();
 		android.util.Log.d(isWifiConnect);
-		return true;
+		return "true";
 	@}
 
 	[Foreign(Language.ObjC)]
-	public static extern(iOS) bool Checking()
+	public static extern(iOS) string Checking()
 	@{
 		int result = [[Reachability reachabilityForInternetConnection] currentReachabilityStatus];
 		if(result == 1) {
 			NSLog(@"%@", true);
 		}
-		return true;
+		return @"true";
 	@}
 
 	extern(!mobile)
-	public static bool Checking()
+	public static string Checking()
 	{
-		debug_log "This is not mobile";
-		return true;
+//		debug_log "This is not mobile";
+		return "true";
 	}
 }
