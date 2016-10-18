@@ -91,9 +91,7 @@ function getData() {
 		url = url + "&SIDO=" + address.sido.value;
 	}
 	
-	fetch(url, {
-		method: 'POST'
-	}).then(function(response) {
+	fetch(url).then(function(response) {
 		items.value = Backend.parsingXMLData(response._bodyInit);
 
 //		items.value.items.forEach(function(item) {
@@ -149,32 +147,19 @@ function selectSido(arg) {
 }
 //시도 구역 받아오기
 function getSido() {
-	var code = Observable();
-	var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr1Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D';
+	var code;
+	var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr1Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999';
 
 	showPanel.base.value = !showPanel.base.value;
 	showPanel.data1.value = "0.9";
 	if (address.data1.length == 0) {
-		fetch(url, {
-			method: 'POST'
-		}).then(function(response) {
-			code.value = Backend.parsingXMLData(response._bodyInit);
-			code.value.response.body.items.forEach(function(item) {
+		fetch(url).then(function(response) {
+			return response.text()
+		}).then(function(responseObject) {
+			code = Backend.parsingXMLData(responseObject);
+			code.response.body.items.forEach(function(item) {
 				address.data1.add(item.item.ADDR1);
-			})
-			if (code.value.response.body.totalCount > 10) {
-				url = url + '&pageNo=';
-				for (var i = 2 ; (i-1)*10 <= code.value.response.body.totalCount ; i++) {
-					fetch(url+i, {
-						method: 'POST'
-					}).then(function(response) {
-						code.value = Backend.parsingXMLData(response._bodyInit);
-						code.value.response.body.items.forEach(function(item) {
-							address.data1.add(item.item.ADDR1);
-						})
-					});
-				}
-			}
+			});
 			address.data1.removeRange(0, 1);
 		}).catch(function(error) {
 			console.log(JSON.stringify(error));
@@ -195,32 +180,19 @@ function selectSgk(arg) {
 //시군구 구역 받아오기
 function getSgk() {
 	if (address.sido.value != "시도") {
-		var code = Observable();
-		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr2Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&ADDR1='+address.sido.value;
+		var code;
+		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr2Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999&ADDR1='+address.sido.value;
 
 		showPanel.base.value = !showPanel.base.value;
 		showPanel.data2.value = "0.9";
 		if (address.data2.length == 0) {
-			fetch(url, {
-				method: 'POST'
-			}).then(function(response) {
-				code.value = Backend.parsingXMLData(response._bodyInit);
-				code.value.response.body.items.forEach(function(item) {
+			fetch(url).then(function(response) {
+				return response.text()
+			}).then(function(responseObject) {
+				code = Backend.parsingXMLData(responseObject);
+				code.response.body.items.forEach(function(item) {
 					address.data2.add(item.item.ADDR2);
-				})
-				if (code.value.response.body.totalCount > 10) {
-					url = url + '&pageNo=';
-					for (var i = 2 ; (i-1)*10 <= code.value.response.body.totalCount ; i++) {
-						fetch(url+i, {
-							method: 'POST'
-						}).then(function(response) {
-							code.value = Backend.parsingXMLData(response._bodyInit);
-							code.value.response.body.items.forEach(function(item) {
-								address.data2.add(item.item.ADDR2);
-							})
-						});
-					}
-				}
+				});
 			}).catch(function(error) {
 				console.log(JSON.stringify(error));
 			});
@@ -237,32 +209,19 @@ function selectEmd(arg) {
 //읍면동 구역 받아오기
 function getEmd() {
 	if (address.sgk.value != "시군구") {
-		var code = Observable();
-		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr3Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&ADDR2='+address.sgk.value;
+		var code;
+		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr3Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999&ADDR2='+address.sgk.value;
 
 		showPanel.base.value = !showPanel.base.value;
 		showPanel.data3.value = "0.9";
 		if (address.data3.length == 0) {
-			fetch(url, {
-				method: 'POST'
-			}).then(function(response) {
-				code.value = Backend.parsingXMLData(response._bodyInit);
-				code.value.response.body.items.forEach(function(item) {
+			fetch(url).then(function(response) {
+				return response.text()
+			}).then(function(responseObject) {
+				code = Backend.parsingXMLData(responseObject);
+				code.response.body.items.forEach(function(item) {
 					address.data3.add(item.item.ADDR3);
-				})
-				if (code.value.response.body.totalCount > 10) {
-					url = url + '&pageNo=';
-					for (var i = 2 ; (i-1)*10 <= code.value.response.body.totalCount ; i++) {
-						fetch(url+i, {
-							method: 'POST'
-						}).then(function(response) {
-							code.value = Backend.parsingXMLData(response._bodyInit);
-							code.value.response.body.items.forEach(function(item) {
-								address.data3.add(item.item.ADDR3);
-							})
-						});
-					}
-				}
+				});
 			}).catch(function(error) {
 				console.log(JSON.stringify(error));
 			});

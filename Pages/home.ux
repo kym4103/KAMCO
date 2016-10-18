@@ -17,6 +17,9 @@
 			},
 			goScrollingAnimation: function() {
 				router.push("scrollingAnimation");
+			},
+			goAnimation: function() {
+				router.push("welcomeAnimation");
 			}
 		}
 	</JavaScript>
@@ -48,6 +51,9 @@
 
 			<menuButton Color="#872" ColumnSpan="2" RowSpan="2" Clicked="{goScrollingAnimation}">
 				<Text Font="han" Value="저장된 검색식" FontSize="20" Alignment="Center" />
+			</menuButton>
+			<menuButton Color="#eee" Clicked="{goAnimation}">
+				<Text Font="han" Value="시작화면" FontSize="15" Alignment="Center" />
 			</menuButton>
 		</Grid>
 	</StackPanel>

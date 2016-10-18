@@ -5,7 +5,7 @@
         var Check = require('CheckWifi');
 
         function check() {
-            Check.CheckWifi("1")
+            Check.CheckWifi("2")
                 .then(function(result) {
                     console.log(JSON.stringify(result));
                 }, function(err) {
@@ -13,10 +13,16 @@
                 });
         }
 
-        module.exports = { check };
+        module.exports = {
+            check,
+            goBack: function() {
+                router.goBack();
+            }
+        };
     </JavaScript>
 
     <StackPanel>
-        <Button Text="Check" Clicked="{check}"/>
+        <Button Text="Check" Clicked="{check}" />
+        <Button Text="Back" Margin="30" Clicked="{goBack}" />
     </StackPanel>
 </Page>

@@ -35,7 +35,7 @@ public class CheckWifi : NativeModule
 	static Fuse.Scripting.Object Converter(Context context, string str)
 	{
 		var wrapperObject = context.NewObject();
-		wrapperObject["result"] = str;
+		wrapperObject["wifi"] = str;
 		return wrapperObject;
 	}
 
