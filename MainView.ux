@@ -5,13 +5,7 @@
 		<Stroke Width="1" Color="#444" />
 	</Rectangle>
 
-	<Rectangle ux:Class="selectButton" Height="20" Color="#7dd" Margin="2" CornerRadius="3">
-<!--		<Clicked><Toggle Target="clicked" /></Clicked>
-		<WhileTrue ux:Name="clicked">
-			<Change this.Color="#599" />
-		</WhileTrue>
-	-->
-	</Rectangle>
+	<Rectangle ux:Class="selectButton" Height="20" Color="#7dd" Margin="2" CornerRadius="3" />
 
 	<Font File="Assets/NanumGothic.ttc" ux:Global="han" />
 

@@ -1,20 +1,34 @@
 <Page ux:Class="scrollingAnimation">
 	<Router ux:Dependency="router" />
 
-	<StackPanel>
-		<Rectangle ux:Name="firstRec" Width="100" Height="50" Color="#000" />
-		<Rectangle ux:Name="secondRec" Width="100" Height="50" Color="#111" />
-		<Rectangle ux:Name="thirdRec" Width="100" Height="50" Color="#222" />
-		<Rectangle ux:Name="forthRec" Width="100" Height="50" Color="#333" />
-		<ScrollView>
-			<Panel Height="1000" Color="#eee">
+	<DockPanel>
+		<StackPanel Dock="Top">
+			<Rectangle ux:Name="firstRec" Width="100" Height="50" Color="#000" />
+			<Rectangle ux:Name="secondRec" Width="100" Height="50" Color="#111" />
+			<Rectangle ux:Name="thirdRec" Width="100" Height="50" Color="#222" />
+			<Rectangle ux:Name="forthRec" Width="100" Height="50" Color="#333" />
+		</StackPanel>
+
+		<Panel Dock="Fill">
+			<ScrollView>
 				<ScrollingAnimation From="0" To="30">
 					<Change firstRec.Height="20" />
 				</ScrollingAnimation>
 				<ScrollingAnimation From="30" To="60">
 					<Change secondRec.Height="20" />
 				</ScrollingAnimation>
-			</Panel>
-		</ScrollView>
-	</StackPanel>
+				
+				<Panel Height="1000" Color="#eee">
+					<Text>
+						1
+						2
+						3
+						4
+						5
+						6
+					</Text>
+				</Panel>
+			</ScrollView>
+		</Panel>
+	</DockPanel>
 </Page>
