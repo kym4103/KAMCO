@@ -3,7 +3,6 @@ var Observable = require('FuseJS/Observable');
 var key = "LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D";
 
 function parsingXMLData(xmlData) {
-
 	var jsonString = "{}";
 	var findLocation = 0;
 	var insertLocation = 1;

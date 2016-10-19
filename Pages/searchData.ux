@@ -84,7 +84,7 @@
 				</selectBox>
 			</WrapPanel>
 			
-			<Button Text="Search" Clicked="{getData}" />
+			<Button Text="Search" Clicked="{searchData}" />
 			<Rectangle Width="100%" Height="1" Color="Black" />
 		</StackPanel>
 

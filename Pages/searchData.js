@@ -4,7 +4,6 @@ var Backend = require("Backend.js");
 //캠코 서비스 키 값
 //LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D
 
-var items = Observable();
 var showItems = Observable();
 
 var options = {type:["전체", "매각", "임대"], date: ["7일 이내", "30일 이내"]};
@@ -19,27 +18,35 @@ var address = {
 	};
 var showPanel = {base: Observable(false), data1: Observable("0"), data2: Observable("0"), data3: Observable("0")};
 
-var data;
-
-var resultText = Observable("This place show you data.");
+var passData;
 
 Storage.read("search.xml")
 	.then(function(contents) {
-		items.value = Backend.parsingXMLData(contents);
-//		console.log(JSON.stringify(items.value));
-		for (var i = 0 ; i < items.value.response.body.items.length-1 ; i++) {
-			if (items.value.response.body.items[i].item.PLNM_NO != items.value.response.body.items[i+1].item.PLNM_NO) {
-//				console.log(JSON.stringify(items.value.response.body.items[i].item));
-				showItems.add(items.value.response.body.items[i]);
+		var items;
+		items = JSON.parse(contents);
+		for (var i = 0 ; i < items.response.body.items.length-1 ; i++) {
+			if (items.response.body.items[i].item.PLNM_NO != items.response.body.items[i+1].item.PLNM_NO) {
+				showItems.add(items.response.body.items[i]);
 			}
-			if (i == items.value.response.body.items.length-2) {
-				showItems.add(items.value.response.body.items[i+1]);
+			if (i == items.response.body.items.length-2) {
+				showItems.add(items.response.body.items[i+1]);
 			}
 		}
-//		console.log(JSON.stringify(showItems));
 	}, function(error) {
 		console.log(error);
 	});
+
+// api에서 데이터를 받아오는 함수
+function getData(url) {
+	return fetch(url).then(function(response) {
+		return response.text();
+	}).then(function(responseObject) {
+		var data = Backend.parsingXMLData(responseObject);
+		return data;
+	}).catch(function(err) {
+		console.log(JSON.stringify(err));
+	});
+}
 
 // 날짜를 온비드 형식에 맞추어 반환
 function callDate(year, month, date) {
@@ -53,7 +60,7 @@ function callDate(year, month, date) {
 	return year + month + date;
 }
 
-function getData() {
+function searchData() {
 // 검색 url
 	var url = "http://openapi.onbid.co.kr/openapi/services/KamcoPblsalThingInquireSvc/getKamcoSaleList?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D";
 
@@ -68,6 +75,7 @@ function getData() {
 
 // 시간 설정을 위한 Date 변수 추가
 	var date = new Date();
+
 // 기간 선택에 따른 url 추가
 	if (selected.date == "7일 이내") {
 		url = url + "&PBCT_BEGN_DTM=" + callDate(date.getFullYear(), date.getMonth(), date.getDate());
@@ -90,26 +98,20 @@ function getData() {
 	if (address.emd.value != "시도") {
 		url = url + "&SIDO=" + address.sido.value;
 	}
-	
-	fetch(url).then(function(response) {
-		items.value = Backend.parsingXMLData(response._bodyInit);
 
-//		items.value.items.forEach(function(item) {
-//			console.log(item.item.PLNM_NO + "/" + item.item.PBCT_NO);
-//		})
-
-		for (var i = 0 ; i < items.value.response.body.items.length-1 ; i++) {
-			if (items.value.response.body.items[i].item.PLNM_NO != items.value.response.body.items[i+1].item.PLNM_NO) {
-				showItems.add(items.value.response.body.items[i].item);
+	showItems.clear()
+	getData(url).then(function(items) {
+		for (var i = 0 ; i < items.response.body.items.length-1 ; i++) {
+			if (items.response.body.items[i].item.PLNM_NO != items.response.body.items[i+1].item.PLNM_NO) {
+				showItems.add(items.response.body.items[i]);
 			}
-			if (i == items.value.response.body.items.length-2) {
-				showItems.add(items.value.response.body.items[i+1]);
+			if (i == items.response.body.items.length-2) {
+				showItems.add(items.response.body.items[i+1]);
 			}
 		}
 
-		resultText.value = response.statusText+". We got the data.";
-		if (items.value.totalCount != 0) {
-			Storage.write("search.xml", response._bodyInit)
+		if (items.totalCount != 0) {
+			Storage.write("search.xml", JSON.stringify(items))
 				.then(function(succeeded) {
 			        if(succeeded) {
 						console.log("Successfully wrote to file.");
@@ -118,19 +120,7 @@ function getData() {
 					}
 				});
 		}
-	}).catch(function(error) {
-		console.log(JSON.stringify(error));
 	});
-}
-
-function showData(arg) {
-	resultText.value = JSON.stringify(arg.data.item)
-		.replace(/{/gi, "")
-		.replace(/}/gi, "")
-		.replace(/"/gi, "")
-		.replace(/,/gi, "\n");
-	PLNM_NO = arg.data.item.PLNM_NO;
-	PBCT_NO = arg.data.item.PBCT_NO;
 }
 
 //시도 구역 선택
@@ -147,22 +137,16 @@ function selectSido(arg) {
 }
 //시도 구역 받아오기
 function getSido() {
-	var code;
 	var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr1Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999';
 
 	showPanel.base.value = !showPanel.base.value;
 	showPanel.data1.value = "0.9";
 	if (address.data1.length == 0) {
-		fetch(url).then(function(response) {
-			return response.text()
-		}).then(function(responseObject) {
-			code = Backend.parsingXMLData(responseObject);
+		getData(url).then(function(code) {
 			code.response.body.items.forEach(function(item) {
 				address.data1.add(item.item.ADDR1);
 			});
 			address.data1.removeRange(0, 1);
-		}).catch(function(error) {
-			console.log(JSON.stringify(error));
 		});
 	}
 }
@@ -180,21 +164,16 @@ function selectSgk(arg) {
 //시군구 구역 받아오기
 function getSgk() {
 	if (address.sido.value != "시도") {
-		var code;
 		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr2Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999&ADDR1='+address.sido.value;
 
 		showPanel.base.value = !showPanel.base.value;
 		showPanel.data2.value = "0.9";
+
 		if (address.data2.length == 0) {
-			fetch(url).then(function(response) {
-				return response.text()
-			}).then(function(responseObject) {
-				code = Backend.parsingXMLData(responseObject);
+			getData(url).then(function(code) {
 				code.response.body.items.forEach(function(item) {
 					address.data2.add(item.item.ADDR2);
 				});
-			}).catch(function(error) {
-				console.log(JSON.stringify(error));
 			});
 		}
 	}
@@ -209,21 +188,16 @@ function selectEmd(arg) {
 //읍면동 구역 받아오기
 function getEmd() {
 	if (address.sgk.value != "시군구") {
-		var code;
 		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr3Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999&ADDR2='+address.sgk.value;
 
 		showPanel.base.value = !showPanel.base.value;
 		showPanel.data3.value = "0.9";
+
 		if (address.data3.length == 0) {
-			fetch(url).then(function(response) {
-				return response.text()
-			}).then(function(responseObject) {
-				code = Backend.parsingXMLData(responseObject);
+			getData(url).then(function(code) {
 				code.response.body.items.forEach(function(item) {
 					address.data3.add(item.item.ADDR3);
 				});
-			}).catch(function(error) {
-				console.log(JSON.stringify(error));
 			});
 		}
 	}
@@ -240,28 +214,19 @@ function closePanel() {
 }
 
 module.exports = {
-	getData,
+	searchData,
 
-	items, showItems,
+	showItems,
 
-	showData, resultText,
+	options, selected,
 
-	options,
-	selected,
-	address,
-	selectSido,
-	selectSgk,
-	selectEmd,
-	getSido,
-	getSgk,
-	getEmd,
-	showPanel,
+	address, selectSido, selectSgk, selectEmd, getSido, getSgk, getEmd,
 
-	closePanel,
+	showPanel, closePanel,
 
 	goDetail: function(arg) {
-		data = arg.data.item;
-		router.push("detailData", data);
+		passData = arg.data.item;
+		router.push("detailData", passData);
 	},
 	goBack: function() {
 		router.goBack();
