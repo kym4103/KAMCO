@@ -9,6 +9,7 @@
   "Includes": [
     "*",
     "*.js:Bundle",
+    "Module/*.js:Bundle",
     "Module/CheckWifi.uno:Source",
     "Reachability/Reachability.h:ObjCHeader:iOS",
     "Reachability/Reachability.m:ObjCHeader:iOS"

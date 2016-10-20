@@ -1,0 +1,55 @@
+<Panel ux:Class="Picker">
+	<object ux:Property="Options" />
+	<string ux:Property="Selected" />
+
+	<JavaScript>
+		var pickerData = this.Options.inner();
+
+		var options = pickerData.map(function(option) {
+			return {
+				option: option
+			}
+		})
+
+		module.exports = {
+			options
+		};
+	</JavaScript>
+
+	<Rectangle ux:Class="pickerButton" Width="100%" Height="30">
+		<string ux:Property="Label" />
+		<Selectable Value="{Property Label}" />
+		<Text ux:Name="text" Alignment="Center" Font="han" Value="{Property Label}" />
+
+		<Tapped>
+			<ToggleSelection />
+		</Tapped>
+	</Rectangle>
+
+	<Rectangle Color="#fff" Width="100%" Height="110" ZOffset="0.2">
+		<StackPanel ZOffset="0.3">
+			<Panel Width="100%" Height="40">
+				<ImageFill File="../Assets/picker.jpg" Color="#fff5"/>
+			</Panel>
+			<Rectangle Width="200" Height="30" CornerRadius="5">
+				<Stroke Width="2" Color="Blue" />
+			</Rectangle>
+			<Panel Width="100%" Height="40">
+				<Rotation Degrees="180" />
+				<ImageFill File="../Assets/picker.jpg" Color="#fff5"/>
+			</Panel>
+		</StackPanel>
+		<ScrollView>
+			<StackPanel>
+				<Rectangle Height="40" />
+				
+				<Selection Value="{Property Selected}" MaxCount="1" MinCount="1" />
+				<Each Items="{options}">
+					<pickerButton Label="{option}" />
+				</Each>
+
+				<Rectangle Height="40" />
+			</StackPanel>
+		</ScrollView>
+	</Rectangle>
+</Panel>

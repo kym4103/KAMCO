@@ -2,19 +2,16 @@
 	<Router ux:Dependency="router" />
 
     <JavaScript>
-        var Check = require('CheckWifi');
+        var Observable = require('FuseJS/Observable');
+        var data = ["1", "2", "3", "4", "5"];
+        var selected = Observable();
 
-        function check() {
-            Check.CheckWifi("2")
-                .then(function(result) {
-                    console.log(JSON.stringify(result));
-                }, function(err) {
-                    console.log("Error" + err);
-                });
+        function clicked() {
+            console.log(selected.value);
         }
 
         module.exports = {
-            check,
+            data, selected, clicked,
             goBack: function() {
                 router.goBack();
             }
@@ -22,7 +19,19 @@
     </JavaScript>
 
     <StackPanel>
-        <Button Text="Check" Clicked="{check}" />
-        <Button Text="Back" Margin="30" Clicked="{goBack}" />
+        <Picker Options="{data}" Selected="{selected}" Clicked="{clicked}" />
+        <Button Text="Back" Clicked="{goBack}" />
+        <Button Text="Blur">
+            <Clicked>
+                <Toggle Target="wtBlur" />
+            </Clicked>
+        </Button>
+        <Panel>
+            <Blur ux:Name="contentsBlur" Radius="0" />
+            <Text Value="This is text data." />
+            <WhileTrue ux:Name="wtBlur">
+                <Change contentsBlur.Radius="0.7" />
+            </WhileTrue>
+        </Panel>
     </StackPanel>
 </Page>

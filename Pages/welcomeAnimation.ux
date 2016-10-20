@@ -1,0 +1,57 @@
+<Page ux:Class="welcomeAnimation">
+	<Router ux:Dependency="router" />
+
+	<JavaScript>
+		var Observable = require('FuseJS/Observable');
+		var Check = require('CheckWifi');
+		var showText = Observable();;
+
+		Check.CheckWifi()
+			.then(function(result) {
+				var wifiEnabled = result.wifi;
+				if (wifiEnabled == 1) {
+					showText.value = "Wifi 연결이 되어있습니다.";
+				} else {
+					showText.value = "Wifi 연결이 되어있지 않습니다.";
+				}
+			}, function(err) {
+				console.log("Error" + err);
+			});
+
+		module.exports = {
+			showText,
+			goHome: function(){
+				router.goto("home", {});
+			}
+		};
+	</JavaScript>
+
+	<Panel Width="100%" BoxSizing="FillAspect" Aspect="0.5625" Background="#edc">
+		<Text Value="Fuser Onbid" ux:Name="logo" Alignment="Center" Color="#edc" FontSize="30"/>
+		<WhileTrue ux:Name="logoAnimation">
+			<Change logo.Color="#C2768E" Duration="1" Easing="QuadraticInOut" />
+			<Change wifiPopup.Opacity="1" Delay="3" />
+			<Change wifiPopup.ZOffset="2" Delay="3" />
+			<Change wifiPopup.HitTestMode="LocalBoundsAndChildren" Delay="3" />
+		</WhileTrue>
+	</Panel>
+	<Rectangle ux:Name="wifiPopup" Color="#eee" CornerRadius="3" Opacity="0" ZOffset="-1" HitTestMode="None" Height="50" Width="70%">
+		<Stroke Width="2" Color="Black" />
+		<StackPanel Alignment="Center">
+			<Text Font="han" Value="{showText}" Alignment="Center" />
+			<Button Text="AppStart" Clicked="{goHome}">
+				<Clicked>
+					<Toggle Target="logoAnimation"/>
+				</Clicked>
+			</Button>
+		</StackPanel>
+	</Rectangle>
+	
+	<WhileActive>
+		<Change timeline.TargetProgress="1" />
+	</WhileActive>
+
+	<Timeline ux:Name="timeline">
+		<Toggle Target="logoAnimation"/>
+	</Timeline>
+</Page>

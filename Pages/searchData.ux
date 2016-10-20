@@ -3,9 +3,7 @@
 
 	<JavaScript File="searchData.js" />
 <!-- 데이터 선택시 보여지는 패널 -->
-	<Rectangle ux:Name="selectPanel" Width="80%" Height="10" Color="#fff" CornerRadius="4" ZOffset="-1" Opacity="0" HitTestMode="None">
-		<Stroke Width="1" Color="Black" />
-
+	<Rectangle ux:Name="selectPanel" Width="100%" Height="10" Color="#fff" CornerRadius="4" ZOffset="-1" Opacity="0" HitTestMode="None" Alignment="BottomCenter">
 		<Rectangle Alignment="TopRight" ZOffset="1" Margin="5" Width="20" Height="20" Color="#ddd" CornerRadius="2">
 			<Rectangle Width="15" Height="2" CornerRadius="1" Color="Black" >
 				<Rotation Degrees="45" />
@@ -17,47 +15,21 @@
 			<Clicked><Callback Handler="{closePanel}" /></Clicked>
 		</Rectangle>
 
-<!--		<Rectangle Width="95%" Height="30" CornerRadius="5" ZOffset="2" HitTestMode="None" Alignment="Center">
-			<Stroke Width="2" Color="Blue" />
-		</Rectangle>-->
-
-		<ScrollView ZOffset="{showPanel.data1}">
-			<StackPanel>
-				<Each Items="{address.data1}">
-					<selectText Value="{}" Clicked="{selectSido}" Alignment="Center" />
-				</Each>
-			</StackPanel>
-		</ScrollView>
-
-		<ScrollView ZOffset="{showPanel.data2}">
-			<StackPanel>
-				<Each Items="{address.data2}">
-					<selectText Value="{}" Clicked="{selectSgk}" Alignment="Center" />
-				</Each>
-			</StackPanel>
-		</ScrollView>
-
-		<ScrollView ZOffset="{showPanel.data3}">
-			<StackPanel>
-				<Each Items="{address.data3}">
-					<selectText Value="{}" Clicked="{selectEmd}" Alignment="Center" />
-				</Each>
-			</StackPanel>
-		</ScrollView>
+		<Picker Options="{address.data1}" Selected="{selected.sido}" ZOffset="{showPanel.data1}" Clicked="{selectSido}" />
+		<Picker Options="{address.data2}" Selected="{selected.sgk}" ZOffset="{showPanel.data2}" Clicked="{selectSgk}" />
+		<Picker Options="{address.data3}" Selected="{selected.emd}" ZOffset="{showPanel.data3}" Clicked="{selectEmd}" />
 
 		<WhileTrue Value="{showPanel.base}">
-			<Change selectPanel.Height="90" Duration="0.05" DurationBack="0" />
+			<Change selectPanel.Height="110" Duration="0.05" DurationBack="0" />
 			<Change selectPanel.ZOffset="2" />
 			<Change selectPanel.Opacity="1" />
 			<Change selectPanel.HitTestMode="LocalBoundsAndChildren" />
-			<Change blur.ZOffset="1" />
-			<Change blur.Opacity="1" />
+			<Change searchDataBlur.Radius="1" />
 		</WhileTrue>
 	</Rectangle>
-<!-- 데이터 선택시 화면을 가리기 위한 패널 -->
-	<Rectangle ux:Name="blur" Width="100%" Color="#fff7" ZOffset="-1" Opacity="0"/>
 
 	<DockPanel Background="#eee">
+		<Blur ux:Name="searchDataBlur" Radius="0" />
 		<StackPanel ux:Name="contents" Margin="3" ItemSpacing="3" Dock="Top">
 			<WrapPanel>
 				<Text Font="han" Value="매각 방식 : " Alignment="Center" />

@@ -1,13 +1,13 @@
 var Observable = require('FuseJS/Observable');
 var Storage = require('FuseJS/Storage');
-var Backend = require("Backend.js");
+var Backend = require("Module/Backend.js");
 //캠코 서비스 키 값
 //LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D
 
 var showItems = Observable();
 
 var options = {type:["전체", "매각", "임대"], date: ["7일 이내", "30일 이내"]};
-var selected = {type: Observable("전체") , date: Observable("7일 이내")};
+var selected = {type: Observable("전체") , date: Observable("7일 이내"), sido: Observable(), sgk: Observable(), emd: Observable()};
 var address = {
 		sido: Observable("시도"),
 		sgk: Observable("시군구"),
@@ -125,15 +125,17 @@ function searchData() {
 
 //시도 구역 선택
 function selectSido(arg) {
-	if (address.sido.value != arg.data) {
-		address.sgk.replaceAll(["시군구"]);
-		address.emd.replaceAll(["읍면동"]);
-	}
+	if (selected.sido.value != null) {
+		if (address.sido.value != selected.sido.value) {
+			address.sgk.replaceAll(["시군구"]);
+			address.emd.replaceAll(["읍면동"]);
+		}
 
-	address.sido.value = arg.data;
-	address.data1.clear();
-	showPanel.base.value = !showPanel.base.value;
-	showPanel.data1.value = "0";
+		address.sido.value = selected.sido.value;
+		address.data1.clear();
+		showPanel.base.value = !showPanel.base.value;
+		showPanel.data1.value = "0";
+	}
 }
 //시도 구역 받아오기
 function getSido() {
@@ -152,11 +154,11 @@ function getSido() {
 }
 //시군구 구역 선택
 function selectSgk(arg) {
-	if (address.sgk.value != arg.data) {
+	if (address.sgk.value != selected.sgk.value) {
 		address.emd.replaceAll(["읍면동"]);
 	}
 
-	address.sgk.value = arg.data;
+	address.sgk.value = selected.sgk.value;
 	address.data2.clear();
 	showPanel.base.value = !showPanel.base.value;
 	showPanel.data2.value = "0";
@@ -180,7 +182,7 @@ function getSgk() {
 }
 //읍면동 구역 선택
 function selectEmd(arg) {
-	address.emd.value = arg.data;
+	address.emd.value = selected.emd.value;
 	address.data3.clear();
 	showPanel.base.value = !showPanel.base.value;
 	showPanel.data3.value = "0";
