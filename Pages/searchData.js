@@ -18,8 +18,6 @@ var address = {
 	};
 var showPanel = {base: Observable(false), data1: Observable("0"), data2: Observable("0"), data3: Observable("0")};
 
-var passData;
-
 Storage.read("search.xml")
 	.then(function(contents) {
 		var items;
@@ -125,24 +123,20 @@ function searchData() {
 
 //시도 구역 선택
 function selectSido(arg) {
-	if (selected.sido.value != null) {
-		if (address.sido.value != selected.sido.value) {
-			address.sgk.replaceAll(["시군구"]);
-			address.emd.replaceAll(["읍면동"]);
-		}
+	address.sgk.replaceAll(["시군구"]);
+	address.emd.replaceAll(["읍면동"]);
 
-		address.sido.value = selected.sido.value;
-		address.data1.clear();
-		showPanel.base.value = !showPanel.base.value;
-		showPanel.data1.value = "0";
-	}
+	showPanel.base.value = !showPanel.base.value;
+	showPanel.data1.value = "0";
 }
 //시도 구역 받아오기
 function getSido() {
 	var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr1Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999';
 
+	address.data1.clear();
 	showPanel.base.value = !showPanel.base.value;
 	showPanel.data1.value = "0.9";
+
 	if (address.data1.length == 0) {
 		getData(url).then(function(code) {
 			code.response.body.items.forEach(function(item) {
@@ -154,12 +148,8 @@ function getSido() {
 }
 //시군구 구역 선택
 function selectSgk(arg) {
-	if (address.sgk.value != selected.sgk.value) {
-		address.emd.replaceAll(["읍면동"]);
-	}
+	address.emd.replaceAll(["읍면동"]);
 
-	address.sgk.value = selected.sgk.value;
-	address.data2.clear();
 	showPanel.base.value = !showPanel.base.value;
 	showPanel.data2.value = "0";
 }
@@ -168,6 +158,7 @@ function getSgk() {
 	if (address.sido.value != "시도") {
 		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr2Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999&ADDR1='+address.sido.value;
 
+		address.data2.clear();
 		showPanel.base.value = !showPanel.base.value;
 		showPanel.data2.value = "0.9";
 
@@ -182,8 +173,6 @@ function getSgk() {
 }
 //읍면동 구역 선택
 function selectEmd(arg) {
-	address.emd.value = selected.emd.value;
-	address.data3.clear();
 	showPanel.base.value = !showPanel.base.value;
 	showPanel.data3.value = "0";
 }
@@ -192,6 +181,7 @@ function getEmd() {
 	if (address.sgk.value != "시군구") {
 		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr3Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999&ADDR2='+address.sgk.value;
 
+		address.data3.clear();
 		showPanel.base.value = !showPanel.base.value;
 		showPanel.data3.value = "0.9";
 
@@ -227,8 +217,7 @@ module.exports = {
 	showPanel, closePanel,
 
 	goDetail: function(arg) {
-		passData = arg.data.item;
-		router.push("detailData", passData);
+		router.push("detailData", arg.data.item);
 	},
 	goBack: function() {
 		router.goBack();

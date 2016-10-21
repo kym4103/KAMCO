@@ -1,4 +1,4 @@
-<Panel ux:Class="selectBar" Alignment="VerticalCenter">
+<Panel ux:Class="selectBar" Alignment="CenterLeft">
 	<int ux:Property="ColumnCount" />
 	<string ux:Property="Selected" />
 	<object ux:Property="Options" />

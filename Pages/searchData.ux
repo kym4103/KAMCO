@@ -15,9 +15,9 @@
 			<Clicked><Callback Handler="{closePanel}" /></Clicked>
 		</Rectangle>
 
-		<Picker Options="{address.data1}" Selected="{selected.sido}" ZOffset="{showPanel.data1}" Clicked="{selectSido}" />
-		<Picker Options="{address.data2}" Selected="{selected.sgk}" ZOffset="{showPanel.data2}" Clicked="{selectSgk}" />
-		<Picker Options="{address.data3}" Selected="{selected.emd}" ZOffset="{showPanel.data3}" Clicked="{selectEmd}" />
+		<Picker Options="{address.data1}" Selected="{address.sido}" ZOffset="{showPanel.data1}" Clicked="{selectSido}" />
+		<Picker Options="{address.data2}" Selected="{address.sgk}" ZOffset="{showPanel.data2}" Clicked="{selectSgk}" />
+		<Picker Options="{address.data3}" Selected="{address.emd}" ZOffset="{showPanel.data3}" Clicked="{selectEmd}" />
 
 		<WhileTrue Value="{showPanel.base}">
 			<Change selectPanel.Height="110" Duration="0.05" DurationBack="0" />
@@ -28,40 +28,111 @@
 		</WhileTrue>
 	</Rectangle>
 
-	<DockPanel Background="#eee">
+	<DockPanel Background="#ddd">
 		<Blur ux:Name="searchDataBlur" Radius="0" />
-		<StackPanel ux:Name="contents" Margin="3" ItemSpacing="3" Dock="Top">
-			<WrapPanel>
-				<Text Font="han" Value="매각 방식 : " Alignment="Center" />
-				<selectBar Options="{options.type}" Selected="{selected.type}" ColumnCount="3" Width="135" Height="25" />
-			</WrapPanel>
+		<StackPanel Dock="Top" Margin="3">
+			<basicColumn ColumnSpan="2" Height="30" Margin="0,0,0,3">
+				<Panel ux:Name="hideArrow" Width="30" Height="30" Alignment="Right" Margin="5,0" HitTestMode="LocalBounds">
+					<Rectangle Color="#222" Width="18" Height="2" CornerRadius="1" Alignment="Left">
+						<Rotation ux:Name="leftArrowRotate" Degrees="45" />
+					</Rectangle>
+					<Rectangle Color="#222" Width="18" Height="2" CornerRadius="1" Alignment="Right">
+						<Rotation ux:Name="rightArrowRotate" Degrees="-45" />
+					</Rectangle>
+					<Clicked><Toggle Target="hideSearchPanel" /></Clicked>
 
-			<WrapPanel>
-				<Text Font="han" Value="입찰 기간 : " Alignment="Center" />
-				<selectBar Options="{options.date}" Selected="{selected.date}" ColumnCount="2" Width="180" Height="25" />
-			</WrapPanel>
+					<WhileTrue ux:Name="hideSearchPanel" Value="false">
+						<Change leftArrowRotate.Degrees="0" Duration="0.03" />
+						<Change rightArrowRotate.Degrees="0" Duration="0.03" />
+						<Change searchPanel.Height="1" Duration=".2" />
+						<Change searchPanel.Opacity="0" Duration=".2" />
+					</WhileTrue>
+				</Panel>
+				<selectText Value="검색조건" Alignment="Center" />
+			</basicColumn>
 
-			<WrapPanel>
-				<Text Font="han" Value="소재지 : " Alignment="Center" />
-				<selectBox>
-					<selectText Value="{address.sido}" Clicked="{getSido}" TextWrapping="Wrap" />
-				</selectBox>
+			<Grid ux:Name="searchPanel" ColumnCount="2" Columns="1*, 2.5*" CellSpacing="2" Dock="Top" Height="150">
+				<basicColumn>
+					<selectText Value="처분 방식" />
+				</basicColumn>
+				<basicColumn>
+					<selectBar Options="{options.type}" Selected="{selected.type}" ColumnCount="3" Width="135" Height="25" />
+				</basicColumn>
 
-				<selectBox>
-					<selectText Value="{address.sgk}" Clicked="{getSgk}" TextWrapping="Wrap" />
-				</selectBox>
+				<basicColumn>
+					<selectText Font="han" Value="입찰 기간" Alignment="CenterLeft" />
+				</basicColumn>
+				<basicColumn>
+					<selectBar Options="{options.date}" Selected="{selected.date}" ColumnCount="2" Width="180" Height="25" />
+				</basicColumn>
 
-				<selectBox>
-					<selectText Value="{address.emd}" Clicked="{getEmd}" TextWrapping="Wrap" />
-				</selectBox>
-			</WrapPanel>
-			
+				<basicColumn>
+					<selectText Font="han" Value="자산구분" Alignment="CenterLeft" />
+				</basicColumn>
+				<basicColumn>
+					<WrapPanel Alignment="CenterLeft">
+						<selectBox>
+							<selectText Value="전체" />
+						</selectBox>
+
+						<selectBox>
+							<selectText Value="전체" />
+						</selectBox>
+
+						<selectBox>
+							<selectText Value="전체" />
+						</selectBox>
+					</WrapPanel>
+				</basicColumn>
+
+				<basicColumn>
+					<selectText Font="han" Value="용도" Alignment="CenterLeft" />
+				</basicColumn>
+				<basicColumn>
+					<WrapPanel Alignment="CenterLeft">
+						<selectBox>
+							<selectText Value="전체" />
+						</selectBox>
+
+						<selectBox>
+							<selectText Value="전체" />
+						</selectBox>
+
+						<selectBox>
+							<selectText Value="전체" />
+						</selectBox>
+					</WrapPanel>
+				</basicColumn>
+
+				<basicColumn>
+					<selectText Font="han" Value="소재지" Alignment="CenterLeft" />
+				</basicColumn>
+				<basicColumn>
+					<WrapPanel Alignment="CenterLeft">
+						<selectBox>
+							<selectText Value="{address.sido}" Clicked="{getSido}" />
+						</selectBox>
+
+						<selectBox>
+							<selectText Value="{address.sgk}" Clicked="{getSgk}" />
+						</selectBox>
+
+						<selectBox>
+							<selectText Value="{address.emd}" Clicked="{getEmd}" />
+						</selectBox>
+					</WrapPanel>
+				</basicColumn>
+			</Grid>
+
 			<Button Text="Search" Clicked="{searchData}" />
 			<Rectangle Width="100%" Height="1" Color="Black" />
 		</StackPanel>
 
-		<ScrollView Dock="Fill">
-			<StackPanel>
+		<ScrollView>
+			<ScrollingAnimation From="0" To="5">
+				<Change hideSearchPanel.Value="True" />
+			</ScrollingAnimation>
+			<StackPanel Dock="Fill">
 				<Each Items="{showItems}">
 					<Rectangle Width="95%" Color="#fff" Margin="2" Clicked="{goDetail}">
 						<StackPanel>
