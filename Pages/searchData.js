@@ -6,17 +6,45 @@ var Backend = require("Module/Backend.js");
 
 var showItems = Observable();
 
-var options = {type:["전체", "매각", "임대"], date: ["7일 이내", "30일 이내"]};
-var selected = {type: Observable("전체") , date: Observable("7일 이내"), sido: Observable(), sgk: Observable(), emd: Observable()};
-var address = {
+var options = {
+	sellType:["전체", "매각", "임대"],
+	date: ["7일 이내", "30일 이내"],
+	assetType: ["캠코\n압류", "캠코\n국유", "캠코\n수탁", "캠코\n유입", "이용\n기관"]
+};
+var selected = {
+		sellType: Observable("전체"),
+		date: Observable("7일 이내"),
+		assetType: Observable("캠코\n압류"),
 		sido: Observable("시도"),
 		sgk: Observable("시군구"),
 		emd: Observable("읍면동"),
-		data1: Observable(),
-		data2: Observable(),
-		data3: Observable()
+		usageTop: Observable("전체"),
+		usageMiddle: Observable("전체"),
+		usageBottom: Observable("전체"),
 	};
-var showPanel = {base: Observable(false), data1: Observable("0"), data2: Observable("0"), data3: Observable("0")};
+
+var address = {
+		sido: Observable(),
+		sgk: Observable(),
+		emd: Observable()
+	};
+
+var usage = {
+		top: Observable(),
+		middle: Observable(),
+		bottom: Observable()
+	};
+
+var condition;
+var showPanel = {
+	base: Observable(false),
+	sido: Observable("0"),
+	sgk: Observable("0"),
+	emd: Observable("0"),
+	usageTop: Observable("0"),
+	usageMiddle: Observable("0"),
+	usageBottom: Observable("0")
+};
 
 Storage.read("search.xml")
 	.then(function(contents) {
@@ -36,7 +64,9 @@ Storage.read("search.xml")
 
 // api에서 데이터를 받아오는 함수
 function getData(url) {
-	return fetch(url).then(function(response) {
+	var req = new Request(url);
+
+	return fetch(req).then(function(response) {
 		return response.text();
 	}).then(function(responseObject) {
 		var data = Backend.parsingXMLData(responseObject);
@@ -48,6 +78,8 @@ function getData(url) {
 
 // 날짜를 온비드 형식에 맞추어 반환
 function callDate(year, month, date) {
+	month += 1;
+
 	if (month < 10) {
 		month = "0" + month;
 	}
@@ -55,47 +87,68 @@ function callDate(year, month, date) {
 		date = "0" + date;
 	}
 
-	return year + month + date;
+	return "" + year + month + date;
 }
 
-function searchData() {
-// 검색 url
-	var url = "http://openapi.onbid.co.kr/openapi/services/KamcoPblsalThingInquireSvc/getKamcoSaleList?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D";
-
-// 타입 선택에 따른 url 추가
-	if (selected.type == "전체") {
-		url = url + "&DPSL_MTD_CD=ALL";
-	} else if (selected.type == "매각") {
-		url = url + "&DPSL_MTD_CD=0001";
-	} else if (selected.type == "임대") {
-		url = url + "&DPSL_MTD_CD=0002";
+function checkCondition() {
+// 타입 선택에 따른 condition 추가
+	if (selected.sellType.value == "전체") {
+		condition = "" + "&DPSL_MTD_CD=ALL";
+	} else if (selected.sellType.value == "매각") {
+		condition = "" + "&DPSL_MTD_CD=0001";
+	} else if (selected.sellType.value == "임대") {
+		condition = "" + "&DPSL_MTD_CD=0002";
 	}
 
 // 시간 설정을 위한 Date 변수 추가
 	var date = new Date();
 
-// 기간 선택에 따른 url 추가
-	if (selected.date == "7일 이내") {
-		url = url + "&PBCT_BEGN_DTM=" + callDate(date.getFullYear(), date.getMonth(), date.getDate());
+// 기간 선택에 따른 condition 추가
+	if (selected.date.value == "7일 이내") {
+		condition += "&PBCT_BEGN_DTM=" + callDate(date.getFullYear(), date.getMonth(), date.getDate());
 
 		date.setDate(date.getDate()+7);
-		url = url + "&PBCT_CLS_DTM=" + callDate(date.getFullYear(), date.getMonth(), date.getDate());
-	} else if (selected.date == "30일 이내") {
-		url = url + "&PBCT_BEGN_DTM=" + callDate(date.getFullYear(), date.getMonth(), date.getDate());
+		condition += "&PBCT_CLS_DTM=" + callDate(date.getFullYear(), date.getMonth(), date.getDate());
+	} else if (selected.date.value == "30일 이내") {
+		condition += "&PBCT_BEGN_DTM=" + callDate(date.getFullYear(), date.getMonth(), date.getDate());
 
 		date.setDate(date.getDate()+30);
-		url = url + "&PBCT_CLS_DTM=" + callDate(date.getFullYear(), date.getMonth(), date.getDate());
+		condition += "&PBCT_CLS_DTM=" + callDate(date.getFullYear(), date.getMonth(), date.getDate());
 	}
-// 주소 선택에 따른 url 추가
-	if (address.emd.value != "읍면동") {
-		url = url + "&EMD=" + address.emd.value;
+// 주소 선택에 따른 condition 추가
+	if (selected.emd.value != "읍면동") {
+		condition += "&EMD=" + selected.emd.value;
 	}
-	if (address.sgk.value != "시군구") {
-		url = url + "&SGK=" + address.sgk.value;
+	if (selected.sgk.value != "시군구") {
+		condition += "&SGK=" + selected.sgk.value;
 	}
-	if (address.emd.value != "시도") {
-		url = url + "&SIDO=" + address.sido.value;
+	if (selected.emd.value != "시도") {
+		condition += "&SIDO=" + selected.sido.value;
 	}
+
+	console.log(selected.assetType.value);
+}
+
+// 검색조건을 저장하는 함수
+function conditionSave() {
+	checkCondition();
+// condition 저장.
+	Storage.write("condition.txt", condition)
+		.then(function(succeeded) {
+	        if(succeeded) {
+				console.log("Successfully wrote condition to file.");
+			} else {
+				console.log("Couldn't write condition to file.");
+			}
+		});
+}
+
+// 온비드에서 물건 검색하는 함수
+function searchData() {
+	checkCondition();
+
+// 검색 url
+	var url = "http://openapi.onbid.co.kr/openapi/services/KamcoPblsalThingInquireSvc/getKamcoSaleList?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D" + condition;
 
 	showItems.clear()
 	getData(url).then(function(items) {
@@ -123,49 +176,49 @@ function searchData() {
 
 //시도 구역 선택
 function selectSido(arg) {
-	address.sgk.replaceAll(["시군구"]);
-	address.emd.replaceAll(["읍면동"]);
+	selected.sgk.replaceAll(["시군구"]);
+	selected.emd.replaceAll(["읍면동"]);
 
 	showPanel.base.value = !showPanel.base.value;
-	showPanel.data1.value = "0";
+	showPanel.sido.value = "0";
 }
 //시도 구역 받아오기
 function getSido() {
 	var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr1Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999';
 
-	address.data1.clear();
+	address.sido.clear();
 	showPanel.base.value = !showPanel.base.value;
-	showPanel.data1.value = "0.9";
+	showPanel.sido.value = "0.9";
 
-	if (address.data1.length == 0) {
+	if (address.sido.length == 0) {
 		getData(url).then(function(code) {
 			code.response.body.items.forEach(function(item) {
-				address.data1.add(item.item.ADDR1);
+				address.sido.add(item.item.ADDR1);
 			});
-			address.data1.removeRange(0, 1);
+			address.sido.removeRange(0, 1);
 		});
 	}
 }
 //시군구 구역 선택
 function selectSgk(arg) {
-	address.emd.replaceAll(["읍면동"]);
+	selected.emd.replaceAll(["읍면동"]);
 
 	showPanel.base.value = !showPanel.base.value;
-	showPanel.data2.value = "0";
+	showPanel.sgk.value = "0";
 }
 //시군구 구역 받아오기
 function getSgk() {
-	if (address.sido.value != "시도") {
-		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr2Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999&ADDR1='+address.sido.value;
+	if (selected.sido.value != "시도") {
+		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr2Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999&ADDR1='+selected.sido.value;
 
-		address.data2.clear();
+		address.sgk.clear();
 		showPanel.base.value = !showPanel.base.value;
-		showPanel.data2.value = "0.9";
+		showPanel.sgk.value = "0.9";
 
-		if (address.data2.length == 0) {
+		if (address.sgk.length == 0) {
 			getData(url).then(function(code) {
 				code.response.body.items.forEach(function(item) {
-					address.data2.add(item.item.ADDR2);
+					address.sgk.add(item.item.ADDR2);
 				});
 			});
 		}
@@ -174,21 +227,93 @@ function getSgk() {
 //읍면동 구역 선택
 function selectEmd(arg) {
 	showPanel.base.value = !showPanel.base.value;
-	showPanel.data3.value = "0";
+	showPanel.emd.value = "0";
 }
 //읍면동 구역 받아오기
 function getEmd() {
-	if (address.sgk.value != "시군구") {
-		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr3Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999&ADDR2='+address.sgk.value;
+	if (selected.sgk.value != "시군구") {
+		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr3Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999&ADDR2='+selected.sgk.value;
 
-		address.data3.clear();
+		address.emd.clear();
 		showPanel.base.value = !showPanel.base.value;
-		showPanel.data3.value = "0.9";
+		showPanel.emd.value = "0.9";
 
-		if (address.data3.length == 0) {
+		if (address.emd.length == 0) {
 			getData(url).then(function(code) {
 				code.response.body.items.forEach(function(item) {
-					address.data3.add(item.item.ADDR3);
+					address.emd.add(item.item.ADDR3);
+				});
+			});
+		}
+	}
+}
+
+function selectUsageTop(arg) {
+	selected.usageMiddle.replaceAll(["전체"]);
+	selected.usageBottom.replaceAll(["전체"]);
+
+	showPanel.base.value = !showPanel.base.value;
+	showPanel.usageTop.value = "0";
+}
+
+function getUsageTop() {
+	var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidTopCodeInfo?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999';
+
+	usage.top.clear();
+	showPanel.base.value = !showPanel.base.value;
+	showPanel.usageTop.value = "0.9";
+
+	if (usage.top.length == 0) {
+		getData(url).then(function(code) {
+			code.response.body.items.forEach(function(item) {
+				usage.top.add(item.item.CTGR_NM);
+			});
+		});
+	}
+}
+
+function selectUsageMiddle(arg) {
+	selected.usageBottom.replaceAll(["전체"]);
+
+	showPanel.base.value = !showPanel.base.value;
+	showPanel.usageMiddle.value = "0";
+}
+
+function getUsageMiddle() {
+	if (selected.usageTop.value != "전체") {
+		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidMiddleCodeInfo?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999&CTGR_ID='+selected.usageTop.value;
+
+		usage.middle.clear();
+		showPanel.base.value = !showPanel.base.value;
+		showPanel.usageMiddle.value = "0.9";
+
+		if (usage.middle.length == 0) {
+			getData(url).then(function(code) {
+				code.response.body.items.forEach(function(item) {
+					usage.middle.add(item.item.CTGR_NM);
+				});
+			});
+		}
+	}
+}
+
+function selectUsageBottom(arg) {
+	showPanel.base.value = !showPanel.base.value;
+	showPanel.usageBottom.value = "0";
+}
+
+function getUsageBottom() {
+	if (selected.usageMiddle.value != "전체") {
+		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidBottomCodeInfo?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999&CTGR_ID='+selected.usageMiddle.value;
+
+		usage.bottom.clear();
+		showPanel.base.value = !showPanel.base.value;
+		showPanel.usageMiddle.value = "0.9";
+
+		if (usage.Bottom.length == 0) {
+			getData(url).then(function(code) {
+				code.response.body.items.forEach(function(item) {
+					usage.Bottom.add(item.item.CTGR_NM);
 				});
 			});
 		}
@@ -197,22 +322,21 @@ function getEmd() {
 
 function closePanel() {
 	showPanel.base.value = !showPanel.base.value;
-	showPanel.data1.value = "0";
-	showPanel.data2.value = "0";
-	showPanel.data3.value = "0";
-	address.data1.clear();
-	address.data2.clear();
-	address.data3.clear();
+	showPanel.sido.value = "0";
+	showPanel.sgk.value = "0";
+	showPanel.emd.value = "0";
 }
 
 module.exports = {
-	searchData,
+	searchData, conditionSave, checkCondition,
 
 	showItems,
 
 	options, selected,
 
 	address, selectSido, selectSgk, selectEmd, getSido, getSgk, getEmd,
+
+	usage, getUsageTop, getUsageMiddle, getUsageBottom, selectUsageTop, selectUsageBottom, selectUsageBottom,
 
 	showPanel, closePanel,
 

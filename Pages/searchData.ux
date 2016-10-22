@@ -15,9 +15,12 @@
 			<Clicked><Callback Handler="{closePanel}" /></Clicked>
 		</Rectangle>
 
-		<Picker Options="{address.data1}" Selected="{address.sido}" ZOffset="{showPanel.data1}" Clicked="{selectSido}" />
-		<Picker Options="{address.data2}" Selected="{address.sgk}" ZOffset="{showPanel.data2}" Clicked="{selectSgk}" />
-		<Picker Options="{address.data3}" Selected="{address.emd}" ZOffset="{showPanel.data3}" Clicked="{selectEmd}" />
+		<Picker Options="{address.sido}" Selected="{selected.sido}" ZOffset="{showPanel.sido}" Clicked="{selectSido}" />
+		<Picker Options="{address.sgk}" Selected="{selected.sgk}" ZOffset="{showPanel.sgk}" Clicked="{selectSgk}" />
+		<Picker Options="{address.emd}" Selected="{selected.emd}" ZOffset="{showPanel.emd}" Clicked="{selectEmd}" />
+		<Picker Options="{usage.top}" Selected="{selected.usageTop}" ZOffset="{showPanel.usageTop}" Clicked="{selectUsageTop}" />
+		<Picker Options="{usage.middle}" Selected="{selected.usageMiddle}" ZOffset="{showPanel.usageMiddle}" Clicked="{selectUsageMiddle}" />
+		<Picker Options="{usage.bottom}" Selected="{selected.usageBottom}" ZOffset="{showPanel.usageBottom}" Clicked="{selectUsageBottom}" />
 
 		<WhileTrue Value="{showPanel.base}">
 			<Change selectPanel.Height="110" Duration="0.05" DurationBack="0" />
@@ -56,7 +59,7 @@
 					<selectText Value="처분 방식" />
 				</basicColumn>
 				<basicColumn>
-					<selectBar Options="{options.type}" Selected="{selected.type}" ColumnCount="3" Width="135" Height="25" />
+					<selectBar Options="{options.sellType}" Selected="{selected.sellType}" ColumnCount="3" Width="135" Height="25" />
 				</basicColumn>
 
 				<basicColumn>
@@ -70,18 +73,13 @@
 					<selectText Font="han" Value="자산구분" Alignment="CenterLeft" />
 				</basicColumn>
 				<basicColumn>
-					<WrapPanel Alignment="CenterLeft">
-						<selectBox>
-							<selectText Value="전체" />
-						</selectBox>
-
-						<selectBox>
-							<selectText Value="전체" />
-						</selectBox>
-
-						<selectBox>
-							<selectText Value="전체" />
-						</selectBox>
+					<WrapPanel ItemWidth="30" Alignment="CenterLeft">
+						<Each Items="{options.assetType}">
+							<Rectangle CornerRadius="3" Width="25" Height="25">
+								<Stroke Width="1" Color="#18f" />
+								<Text Font="han" FontSize="10" Color="#18f" Value="{}" Alignment="Center" />
+							</Rectangle>
+						</Each>
 					</WrapPanel>
 				</basicColumn>
 
@@ -91,15 +89,15 @@
 				<basicColumn>
 					<WrapPanel Alignment="CenterLeft">
 						<selectBox>
-							<selectText Value="전체" />
+							<selectText Value="{selected.usageTop}" Clicked="{getUsageTop}" />
 						</selectBox>
 
 						<selectBox>
-							<selectText Value="전체" />
+							<selectText Value="{selected.usageMiddle}" Clicked="{getUsageMiddle}" />
 						</selectBox>
 
 						<selectBox>
-							<selectText Value="전체" />
+							<selectText Value="{selected.usageBottom}" Clicked="{getUsageBottom}" />
 						</selectBox>
 					</WrapPanel>
 				</basicColumn>
@@ -110,59 +108,69 @@
 				<basicColumn>
 					<WrapPanel Alignment="CenterLeft">
 						<selectBox>
-							<selectText Value="{address.sido}" Clicked="{getSido}" />
+							<selectText Value="{selected.sido}" Clicked="{getSido}" />
 						</selectBox>
 
 						<selectBox>
-							<selectText Value="{address.sgk}" Clicked="{getSgk}" />
+							<selectText Value="{selected.sgk}" Clicked="{getSgk}" />
 						</selectBox>
 
 						<selectBox>
-							<selectText Value="{address.emd}" Clicked="{getEmd}" />
+							<selectText Value="{selected.emd}" Clicked="{getEmd}" />
 						</selectBox>
 					</WrapPanel>
 				</basicColumn>
 			</Grid>
 
-			<Button Text="Search" Clicked="{searchData}" />
-			<Rectangle Width="100%" Height="1" Color="Black" />
 		</StackPanel>
 
-		<ScrollView>
-			<ScrollingAnimation From="0" To="5">
-				<Change hideSearchPanel.Value="True" />
-			</ScrollingAnimation>
-			<StackPanel Dock="Fill">
-				<Each Items="{showItems}">
-					<Rectangle Width="95%" Color="#fff" Margin="2" Clicked="{goDetail}">
-						<StackPanel>
-							<WrapPanel>
-								<Text Font="han" FontSize="13" Color="#093" Value="{item.DPSL_MTD_NM}" />
-								<Text Value=" | " FontSize="13" />
-								<Text Font="han" FontSize="13" Color="#093" Value="{item.BID_MTD_NM}" />
-								<Text Value=" | " FontSize="13" />
-								<Text Font="han" FontSize="13" Color="#093" Value="{item.CTGR_FULL_NM}" />
-							</WrapPanel>
-							<Text Font="han" FontSize="17" Value="{item.CLTR_NM}" TextWrapping="Wrap" />
-							<Text Font="han" FontSize="13" Color="#028" Value="{item.GOODS_NM}" />
-							<WrapPanel>
-								<Text Font="han" FontSize="13" Value="최저입찰가 : " />
-								<Text Font="han" FontSize="13" Color="#820" Value="{item.MIN_BID_PRC}" />
-								<Text Font="han" FontSize="13" Color="#820" Value=" 원" />
-							</WrapPanel>
-							<WrapPanel>
-								<Text Font="han" FontSize="13" Color="#028" Value="(유찰 " />
-								<Text Font="han" FontSize="13" Color="#028" Value="{item.USCBD_CNT}" />
-								<Text Font="han" FontSize="13" Color="#028" Value=" 회)" />
-							</WrapPanel>
-						</StackPanel>
-					</Rectangle>
-				</Each>
+		<StackPanel Dock="Fill">
+			<Rectangle Width="100%" Height="1" Color="Black" />
+			<WrapPanel ItemWidth="100" Alignment="Center">
+				<Button Text="Search" Clicked="{searchData}" />
+				<Button Text="Save" Clicked="{conditionSave}" />
+				<Button Text="CheckCondition" Clicked="{checkCondition}" />
+			</WrapPanel>
+			<Rectangle Width="100%" Height="1" Color="Black" />
+			<ScrollView ux:Name="searchContents" SnapMinTransform="false" SnapMaxTransform="false">
+				<ScrollingAnimation From="0" To="5">
+					<Change hideSearchPanel.Value="True" />
+				</ScrollingAnimation>
+				<StackPanel Dock="Fill">
+					<Each Items="{showItems}">
+						<Rectangle Color="#fff" Margin="3" Clicked="{goDetail}">
+							<StackPanel Margin="2">
+								<WrapPanel>
+									<Text Font="han" FontSize="13" Color="#093" Value="{item.DPSL_MTD_NM}" />
+									<Text Value=" | " FontSize="13" />
+									<Text Font="han" FontSize="13" Color="#093" Value="{item.BID_MTD_NM}" />
+									<Text Value=" | " FontSize="13" />
+									<Text Font="han" FontSize="13" Color="#093" Value="{item.CTGR_FULL_NM}" />
+								</WrapPanel>
+								<Text Font="han" FontSize="17" Value="{item.CLTR_NM}" TextWrapping="Wrap" />
+								<Text Font="han" FontSize="13" Color="#028" Value="{item.GOODS_NM}" />
+								<WrapPanel>
+									<Text Font="han" FontSize="13" Value="최저입찰가 : " />
+									<Text Font="han" FontSize="13" Color="#820" Value="{item.MIN_BID_PRC}" />
+									<Text Font="han" FontSize="13" Color="#820" Value=" 원" />
+								</WrapPanel>
+								<WrapPanel>
+									<Text Font="han" FontSize="13" Color="#028" Value="(유찰 " />
+									<Text Font="han" FontSize="13" Color="#028" Value="{item.USCBD_CNT}" />
+									<Text Font="han" FontSize="13" Color="#028" Value=" 회)" />
+								</WrapPanel>
+							</StackPanel>
+						</Rectangle>
+					</Each>
+				</StackPanel>
+			</ScrollView>
+		</StackPanel>
 
-				<Text Font="han" Value="{resultText}" TextWrapping="Wrap" Background="#ddd" />
-				<Button Text="Back" Clicked="{goBack}" />
-			</StackPanel>
-		</ScrollView>
-			
+		<WrapPanel Dock="Bottom" ItemWidth="100" Alignment="Center">
+			<Button Text="Back" Clicked="{goBack}" />
+			<Button Text="Top">
+				<Clicked><Set searchContents.ScrollPosition="0" /></Clicked>
+			</Button>
+		</WrapPanel>
 	</DockPanel>
 </Page>

@@ -10,7 +10,7 @@
 			</Rectangle>
 
 			<Rectangle Color="#fff" CornerRadius="3" Margin="3">
-				<selectBar Options="{options}" Selected="{selected}" ColumnCount="3">
+				<selectBar Options="{options}" Selected="{selected}" ColumnCount="3" >
 					<Clicked><Callback Handler="{selectData}" /></Clicked>
 				</selectBar>
 			</Rectangle>
