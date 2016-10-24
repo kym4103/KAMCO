@@ -26,29 +26,29 @@
 		</Tapped>
 	</Rectangle>
 
-	<Rectangle Color="#fff" Width="100%" Height="110" ZOffset="0.2">
+	<Rectangle Color="#fff" Width="100%" Height="170" ZOffset="0.2">
 		<StackPanel ZOffset="0.3">
-			<Panel Width="100%" Height="40">
+			<Panel Width="100%" Height="70">
 				<ImageFill File="../Assets/picker.jpg" Color="#fff5"/>
 			</Panel>
 			<Rectangle Width="200" Height="30" CornerRadius="5">
 				<Stroke Width="2" Color="Blue" />
 			</Rectangle>
-			<Panel Width="100%" Height="40">
+			<Panel Width="100%" Height="70">
 				<Rotation Degrees="180" />
 				<ImageFill File="../Assets/picker.jpg" Color="#fff5"/>
 			</Panel>
 		</StackPanel>
 		<ScrollView>
 			<StackPanel>
-				<Rectangle Height="40" />
+				<Rectangle Height="70" />
 				
 				<Selection Value="{Property Selected}" MaxCount="1" MinCount="1" />
 				<Each Items="{options}">
 					<pickerButton Label="{option}" />
 				</Each>
 
-				<Rectangle Height="40" />
+				<Rectangle Height="70" />
 			</StackPanel>
 		</ScrollView>
 	</Rectangle>

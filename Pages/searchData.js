@@ -9,7 +9,10 @@ var showItems = Observable();
 var options = {
 	sellType:["전체", "매각", "임대"],
 	date: ["7일 이내", "30일 이내"],
-	assetType: ["캠코\n압류", "캠코\n국유", "캠코\n수탁", "캠코\n유입", "이용\n기관"]
+	assetType: ["캠코\n압류", "캠코\n국유", "캠코\n수탁", "캠코\n유입", "이용\n기관"],
+	usageTop: Observable(),
+	usageMiddle: Observable(),
+	usageBottom: Observable()
 };
 var selected = {
 		sellType: Observable("전체"),
@@ -61,20 +64,6 @@ Storage.read("search.xml")
 	}, function(error) {
 		console.log(error);
 	});
-
-// api에서 데이터를 받아오는 함수
-function getData(url) {
-	var req = new Request(url);
-
-	return fetch(req).then(function(response) {
-		return response.text();
-	}).then(function(responseObject) {
-		var data = Backend.parsingXMLData(responseObject);
-		return data;
-	}).catch(function(err) {
-		console.log(JSON.stringify(err));
-	});
-}
 
 // 날짜를 온비드 형식에 맞추어 반환
 function callDate(year, month, date) {
@@ -151,7 +140,7 @@ function searchData() {
 	var url = "http://openapi.onbid.co.kr/openapi/services/KamcoPblsalThingInquireSvc/getKamcoSaleList?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D" + condition;
 
 	showItems.clear()
-	getData(url).then(function(items) {
+	Backend.getData(url).then(function(items) {
 		for (var i = 0 ; i < items.response.body.items.length-1 ; i++) {
 			if (items.response.body.items[i].item.PLNM_NO != items.response.body.items[i+1].item.PLNM_NO) {
 				showItems.add(items.response.body.items[i]);
@@ -191,7 +180,7 @@ function getSido() {
 	showPanel.sido.value = "0.9";
 
 	if (address.sido.length == 0) {
-		getData(url).then(function(code) {
+		Backend.getData(url).then(function(code) {
 			code.response.body.items.forEach(function(item) {
 				address.sido.add(item.item.ADDR1);
 			});
@@ -216,7 +205,7 @@ function getSgk() {
 		showPanel.sgk.value = "0.9";
 
 		if (address.sgk.length == 0) {
-			getData(url).then(function(code) {
+			Backend.getData(url).then(function(code) {
 				code.response.body.items.forEach(function(item) {
 					address.sgk.add(item.item.ADDR2);
 				});
@@ -239,7 +228,7 @@ function getEmd() {
 		showPanel.emd.value = "0.9";
 
 		if (address.emd.length == 0) {
-			getData(url).then(function(code) {
+			Backend.getData(url).then(function(code) {
 				code.response.body.items.forEach(function(item) {
 					address.emd.add(item.item.ADDR3);
 				});
@@ -264,9 +253,12 @@ function getUsageTop() {
 	showPanel.usageTop.value = "0.9";
 
 	if (usage.top.length == 0) {
-		getData(url).then(function(code) {
+		Backend.getData(url).then(function(code) {
 			code.response.body.items.forEach(function(item) {
-				usage.top.add(item.item.CTGR_NM);
+				usage.top.add(item.item);
+			});
+			code.response.body.items.forEach(function(item) {
+				options.usageTop.add(item.item.CTGR_NM);
 			});
 		});
 	}
@@ -281,6 +273,12 @@ function selectUsageMiddle(arg) {
 
 function getUsageMiddle() {
 	if (selected.usageTop.value != "전체") {
+		usage.top.forEach(function(item) {
+			if (item.CTRM_NM == selected.usageTop.value) {
+				console.log(item.CTGR_ID);
+			}
+		})
+		
 		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidMiddleCodeInfo?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999&CTGR_ID='+selected.usageTop.value;
 
 		usage.middle.clear();
@@ -288,7 +286,7 @@ function getUsageMiddle() {
 		showPanel.usageMiddle.value = "0.9";
 
 		if (usage.middle.length == 0) {
-			getData(url).then(function(code) {
+			Backend.getData(url).then(function(code) {
 				code.response.body.items.forEach(function(item) {
 					usage.middle.add(item.item.CTGR_NM);
 				});
@@ -311,7 +309,7 @@ function getUsageBottom() {
 		showPanel.usageMiddle.value = "0.9";
 
 		if (usage.Bottom.length == 0) {
-			getData(url).then(function(code) {
+			Backend.getData(url).then(function(code) {
 				code.response.body.items.forEach(function(item) {
 					usage.Bottom.add(item.item.CTGR_NM);
 				});

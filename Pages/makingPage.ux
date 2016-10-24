@@ -3,35 +3,39 @@
 
     <JavaScript>
         var Observable = require('FuseJS/Observable');
-        var data = ["1", "2", "3", "4", "5"];
-        var selected = Observable();
+        var condition = {
+            sellType: Observable("전체"),
+            date: Observable("7일 이내"),
+            assetType: [
+                {name: "캠코\n압류", selected: Observable(false)},
+                {name: "캠코\n국유", selected: Observable(false)},
+                {name: "캠코\n수탁", selected: Observable(false)},
+                {name: "캠코\n유입", selected: Observable(false)},
+                {name: "이용\n기관", selected: Observable(false)}
+            ],
+            sido: Observable("시도"),
+            sgk: Observable("시군구"),
+            emd: Observable("읍면동"),
+            usageTop: Observable("용도1"),
+            usageMiddle: Observable("용도2"),
+            usageBottom: Observable("용도3")
+        };
 
-        function clicked() {
-            console.log(selected.value);
+        function check() {
+            console.log(JSON.stringify(condition));
         }
 
         module.exports = {
-            data, selected, clicked,
+            condition, check,
             goBack: function() {
                 router.goBack();
             }
         };
     </JavaScript>
 
-    <StackPanel>
-        <Picker Options="{data}" Selected="{selected}" Clicked="{clicked}" />
-        <Button Text="Back" Clicked="{goBack}" />
-        <Button Text="Blur">
-            <Clicked>
-                <Toggle Target="wtBlur" />
-            </Clicked>
-        </Button>
-        <Panel>
-            <Blur ux:Name="contentsBlur" Radius="0" />
-            <Text Value="This is text data." />
-            <WhileTrue ux:Name="wtBlur">
-                <Change contentsBlur.Radius="0.7" />
-            </WhileTrue>
-        </Panel>
-    </StackPanel>
+    <DockPanel Background="#ddd">
+        <Button Text="Back" Clicked="{goBack}" Dock="Top" />
+        <Button Text="checking" Clicked="{check}" Dock="Top" />
+        <Condition Selected="{condition}" />
+    </DockPanel>
 </Page>

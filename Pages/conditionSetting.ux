@@ -1,0 +1,14 @@
+<Page ux:Class="conditionSetting">
+	<Router ux:Dependency="router" />
+	<JavaScript File="conditionSetting.js" />
+
+	<DockPanel>
+		<Panel Height="50" Dock="Top">
+			<Text FontSize="30" Alignment="Center" Value="Condition Setting Title" />
+		</Panel>
+		<StackPanel Background="#d0b5b6" Dock="Fill">
+			<Condition Selected="{condition}" />
+			<Button Text="Save" Clicked="{saveCondition}" />
+		</StackPanel>
+	</DockPanel>
+</Page>

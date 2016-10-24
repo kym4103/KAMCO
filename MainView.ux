@@ -5,7 +5,9 @@
 		<Stroke Width="1" Color="#444" />
 	</Rectangle>
 
-	<Rectangle ux:Class="selectButton" Height="20" Color="#7dd" Margin="2" CornerRadius="3" />
+	<Rectangle ux:Class="selectButton" CornerRadius="3" Width="25" Height="25">
+		<Stroke Width="1" Color="#18f" />
+	</Rectangle>
 	<Rectangle ux:Class="basicColumn" Color="#fff" CornerRadius="2" />
 
 	<Font File="Assets/NanumGothic.ttc" ux:Global="han" />
@@ -18,8 +20,8 @@
 			<home ux:Template="home" router="router" />
 			<searchData ux:Template="searchData" router="router" />
 			<detailData ux:Template="detailData" router="router" />
-			<savedPage ux:Template="savedPage" router="router" />
-			<localNotification ux:Template="localNotification" router="router" />
+			<conditionSearch ux:Template="conditionSearch" router="router" />
+			<conditionSetting ux:Template="conditionSetting" router="router" />
 			<makingPage ux:Template="makingPage" router="router" />
 			<scrollingAnimation ux:Template="scrollingAnimation" router="router" />
 		</Navigator>

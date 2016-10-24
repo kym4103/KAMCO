@@ -3,15 +3,17 @@ var Observable = require('FuseJS/Observable');
 var key = "LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D";
 
 function parsingXMLData(xmlData) {
-	var jsonString = "{}";
-	var findLocation = 0;
-	var insertLocation = 1;
-	var deepCount = 1;
+	var jsonString = "{}"; // json데이터를 생성하기 위한 문자열을 저장할 변수
+	var findLocation = 0; // 데이터를 찾기 시작할 위치를 저장할 변수
+	var insertLocation = 1; // 데이터의 삽입 위치를 저장할 변수
+	var deepCount = 1; // json 데이터의 깊이를 저장할 변수
+	var attribute = Observable(); // xml 속성을 저장할 변수
 
+// xml헤더 내용과 불필요한 부분을 삭제.
 	var forDeleteText = findString(xmlData, findLocation);
 	xmlData = xmlData.replace('<'+forDeleteText+'>', "").replace(/\t/g, "").replace(/\r/g, "\\r").replace(/\n/g, "\\n").replace(/\s\s+/g, "");
-	var attribute = Observable();
 
+// < 의 개수만큼 반복하며 json데이터의 속성들을 추가.
 	for (var i = 0 ; i < xmlData.match(/</g).length ; i++) {
 		var first;
 
@@ -28,6 +30,7 @@ function parsingXMLData(xmlData) {
 
 	findLocation = 0;
 
+// < 의 개수만큼 반복하며 json데이터문자열에 속성값을 찾아 추가.
 	for (var i = 0 ; i < xmlData.match(/</g).length ; i++) {
 		//문자열을 반환하는 함수 findString()
 		forDeleteText = findString(xmlData, findLocation+1);
@@ -72,23 +75,16 @@ function parsingXMLData(xmlData) {
 		}
 
 		findLocation = xmlData.indexOf("<", findLocation+1);
-		//console.log(jsonString);
 	}
-//	console.log(JSON.stringify(attribute));
-//	console.log(JSON.stringify(attribute.getAt(0)));
 
+// json데이터문자열에 불필요한 부분 제거.
 	jsonString = jsonString
 		.replace(/, }/g, "}")
 		.replace(/}"/g, '}, "');
-//		.replace('"items":{', '"items":[{')
-//		.replace(/, "item"/g, '}, {"item"')
-//		.replace('}}, "pageNo"', '}}], "pageNo"')
-//		.replace('"bidDateInfos":{', '"bidDateInfos":[{')
-//		.replace(/, "bidDateInfoItem"/g, '}, {"bidDateInfoItem"')
-//		.replace('}}, "files"', '}}], "files"');
 
 	findLocation = 0;
 
+// json데이터문자열에 중복된 속성이 있다면 그 속성들을 []으로 감싸줌.
 	for (var i = 0 ; i < attribute.length ; i++) {
 		var frontAttribute, backAttribute, findText, modifyText;
 		findText = attribute.getAt(i);
@@ -105,11 +101,8 @@ function parsingXMLData(xmlData) {
 		findLocation = xmlData.indexOf('/'+frontAttribute, 0);
 		backAttribute = findString(xmlData, findLocation+1);
 
-//		console.log(frontAttribute + '/' + backAttribute);
 		modifyText = '}, {"' + findText + '"';
 		findText = new RegExp(', "'+findText+'"', 'g');
-
-//		console.log(jsonString.match(findText).length);
 
 		jsonString = jsonString
 			.replace('"'+frontAttribute+'":{', '"'+frontAttribute+'":[{')
@@ -117,12 +110,11 @@ function parsingXMLData(xmlData) {
 			.replace(findText, modifyText);
 	}
 
-//	console.log(jsonString);
-
+// 문자열을 json 데이터로 반환.
 	return JSON.parse(jsonString);
 }
 
-// < 와 > 사이의 문자열을 반환
+// < 와 > 사이의 문자열을 찾는 함수.
 function findString(data, location) {
 	var start, end;
 	start = data.indexOf('<', location);
@@ -131,21 +123,13 @@ function findString(data, location) {
 	return data.substring(start+1, end);
 }
 
-// 데이터 값을 반환
+// data1 안에 있는 data2 값을 findlocation부터 검색해서 데이터 값을 찾는 함수.
 function findDataString(data1, data2, findLocation) {
 	var start, end;
 	start = data1.indexOf(data2, findLocation);
 	end = data1.indexOf('</'+data2, start);
 	
 	return data1.substring(start+1+data2.length, end);
-}
-
-// 중복된 속성 찾는 함수
-function findAttribute(data, location) {
-	var i, j, k;
-	i = findString(data, 0);
-	j = findDataString(data, i, data.indexOf(i)+2);
-	k = findDataString(data, i, data.indexOf(j)+2);
 }
 
 // 속성 이름을 한글로 변경하는 함수
@@ -205,7 +189,21 @@ function changeAttributeName(name) {
 	return name;
 }
 
+// api에서 데이터를 받아오는 함수
+function getData(url) {
+	var req = new Request(url);
+
+	return fetch(req).then(function(response) {
+		return response.text();
+	}).then(function(responseObject) {
+		var data = parsingXMLData(responseObject);
+		return data;
+	}).catch(function(err) {
+		console.log(JSON.stringify(err));
+	});
+}
+
 module.exports = {
-	parsingXMLData: parsingXMLData,
-	changeAttributeName: changeAttributeName
+	changeAttributeName: changeAttributeName,
+	getData: getData
 };

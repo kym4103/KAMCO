@@ -6,11 +6,11 @@
 			goSearchData: function() {
 				router.push("searchData");
 			},
-			goSavedPage: function() {
-				router.push("savedPage");
+			goConditionSearch: function() {
+				router.push("conditionSearch");
 			},
-			goLocalNotification: function() {
-				router.push("localNotification");
+			goConditionSetting: function() {
+				router.push("conditionSetting");
 			},
 			goMakingPage: function() {
 				router.push("makingPage");
@@ -31,22 +31,43 @@
 		</WhilePressed>
 	</Rectangle>
 
-	<StackPanel>
+	<DockPanel>
+		<Panel Height="50" Dock="Top">
+			<Text FontSize="30" Alignment="Center" Value="Title" />
+		</Panel>
+		<StackPanel Background="#d0b5b6" Dock="Fill">
+			<Grid ColumnCount="2" Columns="1*, 1*" RowCount="2" Rows="1*, 1*" BoxSizing="FillAspect" Aspect="1" Margin="10">
+				<Panel Width="90%" BoxSizing="FillAspect" Aspect="1" Alignment="Center" Background="#1eb1ed">
+					<Rectangle Width="80%" Height="30%" Color="#4f6ac5" ZOffset=".9" Alignment="Center" />
+					<Rectangle Width="30%" Height="80%" Color="#4f6ac5" ZOffset=".9" Alignment="Center" />
+					<Rectangle Width="82%" Height="32%" Color="#000" ZOffset=".8" Alignment="Center" />
+					<Rectangle Width="32%" Height="82%" Color="#000" ZOffset=".8" Alignment="Center" />
+					<Text Font="han" FontSize="25" Color="#fff" Value="조건 추가" Alignment="Center" ZOffset="1" />
+
+					<Clicked>
+						<Callback Handler="{goConditionSetting}" />
+					</Clicked>
+				</Panel>
+			</Grid>
+		</StackPanel>
+	</DockPanel>
+
+<!--	<StackPanel>
 		<Grid ColumnCount="4" Columns="1*, 1*, 1*, 1*" RowCount="4" Rows="1*, 1*, 1*, 1*" CellSpacing="3" Width="100%" BoxSizing="FillAspect" Aspect="1" Margin="3">
 			<menuButton ColumnSpan="4" Color="#19f" Clicked="{goSearchData}">
-				<Text Font="han" Value="데이터 검색" FontSize="30" Alignment="Center" />
+				<Text Font="han" Value="일반 검색" FontSize="30" Alignment="Center" />
 			</menuButton>
 
-			<menuButton ColumnSpan="2" Color="#7d2" Clicked="{goSavedPage}">
-				<Text Font="han" Value="저장된 페이지" FontSize="25" Alignment="Center" />
+			<menuButton ColumnSpan="2" Color="#7d2" Clicked="{goConditionSearch}">
+				<Text Font="han" Value="한방 검색" FontSize="30" Alignment="Center" />
 			</menuButton>
 
-			<menuButton Color="#e89" Clicked="{goLocalNotification}">
-				<Text Font="han" Value="알림예제" FontSize="20" Alignment="Center" />
+			<menuButton Color="#e89" Clicked="{goConditionSetting}">
+				<Text Font="han" Value="조건 설정" FontSize="20" Alignment="Center" />
 			</menuButton>
 
 			<menuButton Color="#d9c" Clicked="{goMakingPage}">
-				<Text Font="han" Value="연습용" FontSize="20" Alignment="Center" />
+				<Text Font="han" Value="임시" FontSize="20" Alignment="Center" />
 			</menuButton>
 
 			<menuButton Color="#872" ColumnSpan="2" RowSpan="2" Clicked="{goScrollingAnimation}">
@@ -56,5 +77,5 @@
 				<Text Font="han" Value="시작화면" FontSize="15" Alignment="Center" />
 			</menuButton>
 		</Grid>
-	</StackPanel>
+	</StackPanel>-->
 </Page>

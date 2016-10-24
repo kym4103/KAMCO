@@ -2,8 +2,6 @@ var Observable = require('FuseJS/Observable');
 var Storage = require('FuseJS/Storage');
 var Backend = require("Module/Backend.js");
 
-// var basicItem = this.Parameter;
-// var detailItem = Observable();
 var item = {basicItem: this.Parameter, detailItem: Observable()};
 var showItem = Observable();
 var options = ["기본정보", "기관정보", "공고정보", "경매정보", "공고문", "입찰정보"];
@@ -23,17 +21,9 @@ this.Parameter.onValueChanged(function(x) {
 	for (var o in item.basicItem.value ) {
 		showItem.add({name: Backend.changeAttributeName(o), contents: item.basicItem.value[o] });
 	}
-//	console.log(JSON.stringify(showItem));
 
-	fetch(url ,{
-		method: 'POST'
-	}).then(function(response) {
-		//console.log(JSON.stringify(response));
-		item.detailItem.value = Backend.parsingXMLData(response._bodyInit);
-		//console.log(JSON.stringify(item.detailItem.value.response.body.items[0].item.bidDetailInfo.PLNM_DOC));
-		//console.log(JSON.stringify(item.detailItem.value));
-	}).catch(function(error){
-		console.log(JSON.stringify(error));
+	Backend.getData(url).then(function(item) {
+		item.detailItem.value = item;
 	});
 });
 

@@ -1,0 +1,18 @@
+<Page ux:Class="conditionSearch">
+	<Router ux:Dependency="router" />
+	<JavaScript>
+		module.exports = {
+			goConditionSetting: function(){
+				router.push("conditionSetting");
+			}
+		};
+	</JavaScript>
+
+	<DockPanel>
+		<Panel Height="50" Dock="Top">
+			<Text FontSize="30" Alignment="Center" Value="Condition Search Title" />
+		</Panel>
+		<StackPanel Background="#d0b5b6" Dock="Fill">
+		</StackPanel>
+	</DockPanel>
+</Page>

@@ -16,7 +16,6 @@ var panel = {
 Storage.read("save.xml")
 	.then(function(contents) {
 		item.value = JSON.parse(contents);
-//		console.log(JSON.stringify(item.value));
 	}, function(error) {
 		console.log(error);
 	})

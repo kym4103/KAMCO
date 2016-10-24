@@ -18,7 +18,7 @@
 		<Picker Options="{address.sido}" Selected="{selected.sido}" ZOffset="{showPanel.sido}" Clicked="{selectSido}" />
 		<Picker Options="{address.sgk}" Selected="{selected.sgk}" ZOffset="{showPanel.sgk}" Clicked="{selectSgk}" />
 		<Picker Options="{address.emd}" Selected="{selected.emd}" ZOffset="{showPanel.emd}" Clicked="{selectEmd}" />
-		<Picker Options="{usage.top}" Selected="{selected.usageTop}" ZOffset="{showPanel.usageTop}" Clicked="{selectUsageTop}" />
+		<Picker Options="{options.usageTop}" Selected="{selected.usageTop}" ZOffset="{showPanel.usageTop}" Clicked="{selectUsageTop}" />
 		<Picker Options="{usage.middle}" Selected="{selected.usageMiddle}" ZOffset="{showPanel.usageMiddle}" Clicked="{selectUsageMiddle}" />
 		<Picker Options="{usage.bottom}" Selected="{selected.usageBottom}" ZOffset="{showPanel.usageBottom}" Clicked="{selectUsageBottom}" />
 
@@ -75,10 +75,7 @@
 				<basicColumn>
 					<WrapPanel ItemWidth="30" Alignment="CenterLeft">
 						<Each Items="{options.assetType}">
-							<Rectangle CornerRadius="3" Width="25" Height="25">
-								<Stroke Width="1" Color="#18f" />
-								<Text Font="han" FontSize="10" Color="#18f" Value="{}" Alignment="Center" />
-							</Rectangle>
+							<selectButton />
 						</Each>
 					</WrapPanel>
 				</basicColumn>
