@@ -192,7 +192,7 @@ function changeAttributeName(name) {
 // api에서 데이터를 받아오는 함수
 function getData(url) {
 	var req = new Request(url);
-
+	console.log(url);
 	return fetch(req).then(function(response) {
 		return response.text();
 	}).then(function(responseObject) {
